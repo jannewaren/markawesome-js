@@ -1,14 +1,18 @@
 # Changelog
 
 All notable changes to this project are documented here. The format is based on
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
+adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-06-26
+
+Initial release — a TypeScript port of the markawesome Ruby engine (parity
+target `markawesome` 0.16.0).
+
 ### Added
 
-- Initial TypeScript port of the markawesome Ruby engine (parity target
-  `markawesome` 0.16.0).
 - `process(content, options)` pipeline mirroring the Ruby transformer order
   exactly (layout → popover → tooltip → badge → button → callout → card →
   carousel → comparison → copy-button → details → image-dialog → dialog → icon →
@@ -35,3 +39,6 @@ All notable changes to this project are documented here. The format is based on
 
 - `renderAsMarkdown()` / plain-markdown rendering parity (Phase 3) is not yet
   ported.
+
+[Unreleased]: https://github.com/jannewaren/markawesome-js/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/jannewaren/markawesome-js/releases/tag/v0.1.0
