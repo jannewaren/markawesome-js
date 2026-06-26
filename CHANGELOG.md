@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-26
+
 ### Added
 
 - New `video` transformer producing Web Awesome's two media components — `<wa-video>` (a single embedded video) and `<wa-video-playlist>` (a playlist of `<wa-video>` children). A byte-for-byte mirror of the Ruby `VideoTransformer` (parity locked by `test/parity-corpus.test.ts` and exact-string assertions in `test/video.test.ts`); it runs in the pipeline immediately after `comparison`.
@@ -58,5 +60,6 @@ target `markawesome` 0.16.0).
 - `renderAsMarkdown()` / plain-markdown rendering parity (Phase 3) is not yet
   ported.
 
-[Unreleased]: https://github.com/jannewaren/markawesome-js/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/jannewaren/markawesome-js/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/jannewaren/markawesome-js/releases/tag/v0.2.0
 [0.1.0]: https://github.com/jannewaren/markawesome-js/releases/tag/v0.1.0

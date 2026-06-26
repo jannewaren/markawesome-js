@@ -1,6 +1,6 @@
 {
   "name": "markawesome-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Framework-agnostic Markdown to Web Awesome component transformer (TypeScript port of the markawesome Ruby gem)",
   "keywords": [
     "markdown",
