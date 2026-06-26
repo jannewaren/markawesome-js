@@ -38,4 +38,24 @@ describe('TabsTransformer.transform', () => {
     const md = '++++++\n+++ Tab 1\nContent 1\n++++++';
     expect(transform(md)).toBe(md);
   });
+
+  it('per-tab disabled (exact, matches Ruby): flag emitted, label stripped, sibling untouched', () => {
+    const result = transform(
+      '++++++top\n+++ Tab 1\nContent 1\n+++\n+++ disabled Coming soon\nNot yet available.\n+++\n++++++',
+    );
+    expect(result).toBe(
+      '<wa-tab-group placement="top">' +
+        '<wa-tab panel="tab-1">Tab 1</wa-tab>' +
+        '<wa-tab panel="tab-2" disabled>Coming soon</wa-tab>' +
+        '<wa-tab-panel name="tab-1"><p>Content 1</p>\n</wa-tab-panel>' +
+        '<wa-tab-panel name="tab-2"><p>Not yet available.</p>\n</wa-tab-panel>' +
+        '</wa-tab-group>',
+    );
+  });
+
+  it('only a leading disabled token is the flag, not a label containing the word', () => {
+    expect(transform('++++++\n+++ Why this is disabled\nContent\n+++\n++++++')).toContain(
+      '<wa-tab panel="tab-1">Why this is disabled</wa-tab>',
+    );
+  });
 });

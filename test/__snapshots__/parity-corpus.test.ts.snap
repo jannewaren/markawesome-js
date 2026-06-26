@@ -34,6 +34,26 @@ Side
 </div>"
 `;
 
+exports[`parity corpus (locked to Ruby-matching output) > popover-aligned-skidding-block 1`] = `
+"<wa-button id='popover-d69e481a' appearance='plain'>Trigger</wa-button>
+<wa-popover for='popover-d69e481a' placement='bottom-start' skidding='12'>
+<p>Body</p>
+
+</wa-popover>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > popover-aligned-skidding-inline 1`] = `"Click <button type='button' id='popover-4a7c813a' class='ma-popover-trigger' style='background: none; border: none; padding: 0; color: inherit; text-decoration: underline; text-decoration-style: dotted; cursor: pointer; font: inherit;'>here</button><wa-popover for='popover-4a7c813a' placement='right-start' skidding='-4'>Aligned popover</wa-popover> now."`;
+
+exports[`parity corpus (locked to Ruby-matching output) > tabs-disabled 1`] = `
+"<wa-tab-group placement="top"><wa-tab panel="tab-1">Tab 1</wa-tab><wa-tab panel="tab-2" disabled>Coming soon</wa-tab><wa-tab-panel name="tab-1"><p>Content 1</p>
+</wa-tab-panel><wa-tab-panel name="tab-2"><p>Not yet available.</p>
+</wa-tab-panel></wa-tab-group>"
+`;
+
 exports[`parity corpus (locked to Ruby-matching output) > tag-inline 1`] = `"Status: <wa-tag variant="success"><wa-icon name="check"></wa-icon>Done</wa-tag> ok"`;
 
 exports[`parity corpus (locked to Ruby-matching output) > tooltip 1`] = `"<span id="tooltip-6ea8fe9c" tabindex="0" class="ma-tooltip-anchor" style="text-decoration: underline dotted; cursor: help;">API term</span><wa-tooltip for="tooltip-6ea8fe9c" placement="top" distance="5">Application Programming Interface</wa-tooltip>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > tooltip-aligned-skidding-block 1`] = `"<span id="tooltip-d8acae7a" tabindex="0" class="ma-tooltip-anchor" style="text-decoration: underline dotted; cursor: help;">REST</span><wa-tooltip for="tooltip-d8acae7a" placement="bottom-end" distance="8" skidding="12">Representational State Transfer</wa-tooltip>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > tooltip-aligned-skidding-inline 1`] = `"<span id="tooltip-62ab914f" tabindex="0" class="ma-tooltip-anchor" style="text-decoration: underline dotted; cursor: help;">API</span><wa-tooltip for="tooltip-62ab914f" placement="right-end" skidding="-4">Application Programming Interface</wa-tooltip>"`;

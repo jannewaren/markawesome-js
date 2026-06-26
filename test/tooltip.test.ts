@@ -28,6 +28,26 @@ describe('TooltipTransformer.transform', () => {
     );
   });
 
+  it('inline aligned placement + negative skidding (exact, matches Ruby)', () => {
+    const result = transform('(((right-end skidding:-4 API >>> Application Programming Interface)))');
+    expect(result).toBe(
+      '<span id="tooltip-62ab914f" tabindex="0" class="ma-tooltip-anchor" ' +
+        'style="text-decoration: underline dotted; cursor: help;">API</span>' +
+        '<wa-tooltip for="tooltip-62ab914f" placement="right-end" skidding="-4">Application Programming Interface</wa-tooltip>',
+    );
+  });
+
+  it('block aligned placement + distance + skidding (exact, matches Ruby)', () => {
+    const result = transform(
+      ':::wa-tooltip bottom-end distance:8 skidding:12\nREST\n>>>\nRepresentational State Transfer\n:::',
+    );
+    expect(result).toBe(
+      '<span id="tooltip-d8acae7a" tabindex="0" class="ma-tooltip-anchor" ' +
+        'style="text-decoration: underline dotted; cursor: help;">REST</span>' +
+        '<wa-tooltip for="tooltip-d8acae7a" placement="bottom-end" distance="8" skidding="12">Representational State Transfer</wa-tooltip>',
+    );
+  });
+
   it('converts literal backslash-n in tip to <br>', () => {
     expect(transform('(((term >>> Line one\\nLine two)))')).toContain('Line one<br>Line two');
   });

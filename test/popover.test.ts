@@ -36,6 +36,34 @@ describe('PopoverTransformer.transform', () => {
     expect(transform('&&&distance:10\nInfo\n>>>\nContent\n&&&')).toContain("distance='10'");
   });
 
+  it('block aligned placement + skidding (exact, matches Ruby)', () => {
+    const result = transform('&&&bottom-start skidding:12\nTrigger\n>>>\nBody\n&&&');
+    expect(result).toBe(
+      [
+        "<wa-button id='popover-d69e481a' appearance='plain'>Trigger</wa-button>",
+        "<wa-popover for='popover-d69e481a' placement='bottom-start' skidding='12'>",
+        '<p>Body</p>',
+        '',
+        '</wa-popover>',
+      ].join('\n'),
+    );
+  });
+
+  it('inline aligned placement + negative skidding (exact, matches Ruby)', () => {
+    const result = transform('&&&right-start skidding:-4 Hover me >>> Tip text&&&');
+    expect(result).toBe(
+      "<button type='button' id='popover-cf219064' class='ma-popover-trigger' " +
+        "style='background: none; border: none; padding: 0; color: inherit; text-decoration: underline; text-decoration-style: dotted; cursor: pointer; font: inherit;'>Hover me</button>" +
+        "<wa-popover for='popover-cf219064' placement='right-start' skidding='-4'>Tip text</wa-popover>",
+    );
+  });
+
+  it('emits skidding after distance', () => {
+    expect(transform('&&&distance:8 skidding:12\nInfo\n>>>\nContent\n&&&')).toContain(
+      "distance='8' skidding='12'",
+    );
+  });
+
   it('link trigger style renders a button, not wa-button', () => {
     const result = transform('&&&link\nInfo\n>>>\nContent\n&&&');
     expect(result).toContain("<button type='button' id='popover-");

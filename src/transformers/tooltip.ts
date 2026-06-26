@@ -9,17 +9,34 @@ import { applyPatterns, escapeHtml, md5Hex8, type Pattern } from './base.js';
  * Tip content is plain text (HTML-escaped); literal `\n` becomes `<br>`.
  */
 const TOOLTIP_ATTRIBUTES: AttributeSchema = {
-  placement: ['top', 'bottom', 'left', 'right'],
+  // The full wa-tooltip placement surface: the 4 primary plus 8 aligned variants.
+  placement: [
+    'top',
+    'top-start',
+    'top-end',
+    'right',
+    'right-start',
+    'right-end',
+    'bottom',
+    'bottom-start',
+    'bottom-end',
+    'left',
+    'left-start',
+    'left-end',
+  ],
 };
 
 const INLINE_REGEX = /\(\(\([ \t]*([^\r\n]*?)[ \t]*>>>[ \t]*([^\r\n]+?)[ \t]*\)\)\)/g;
 const ALTERNATIVE_REGEX = /^:::wa-tooltip([^\n]*)$\n([\s\S]*?)\n^>>>$\n([\s\S]*?)\n^:::$/gm;
 
 const DISTANCE_TOKEN = /^distance:\d+$/;
+// Skidding offsets along the target axis and may be negative.
+const SKIDDING_TOKEN = /^skidding:-?\d+$/;
 
 interface TooltipOptions {
   placement: string;
   distance: string | undefined;
+  skidding: string | undefined;
 }
 
 export function transform(content: string): string {
@@ -32,9 +49,9 @@ export function transform(content: string): string {
       const combined = captures[0] ?? '';
       const tipText = (captures[1] ?? '').trim();
       const [paramsString, anchorText] = parseInlineAnchorAndParams(combined);
-      const { placement, distance } = parseParameters(paramsString);
+      const { placement, distance, skidding } = parseParameters(paramsString);
       const tooltipId = generateTooltipId(anchorText, tipText, seenIds);
-      return buildTooltipHtml(tooltipId, anchorText, tipText, { placement, distance });
+      return buildTooltipHtml(tooltipId, anchorText, tipText, { placement, distance, skidding });
     },
   };
 
@@ -44,9 +61,9 @@ export function transform(content: string): string {
       const paramsString = captures[0] ?? '';
       const anchorText = (captures[1] ?? '').trim();
       const tipText = (captures[2] ?? '').trim();
-      const { placement, distance } = parseParameters(paramsString);
+      const { placement, distance, skidding } = parseParameters(paramsString);
       const tooltipId = generateTooltipId(anchorText, tipText, seenIds);
-      return buildTooltipHtml(tooltipId, anchorText, tipText, { placement, distance });
+      return buildTooltipHtml(tooltipId, anchorText, tipText, { placement, distance, skidding });
     },
   };
 
@@ -56,15 +73,17 @@ export function transform(content: string): string {
 
 function parseParameters(paramsString: string): TooltipOptions {
   if (!paramsString || paramsString.trim() === '') {
-    return { placement: 'top', distance: undefined };
+    return { placement: 'top', distance: undefined, skidding: undefined };
   }
   const attributes = parseAttributes(paramsString, TOOLTIP_ATTRIBUTES);
   const placement = attributes.placement || 'top';
-  // Rightmost-wins for distance.
+  // Rightmost-wins for distance / skidding (skidding may be negative).
   const tokens = paramsString.trim().split(/\s+/);
   const distanceToken = [...tokens].reverse().find((token) => DISTANCE_TOKEN.test(token));
   const distance = distanceToken?.replace('distance:', '');
-  return { placement, distance };
+  const skiddingToken = [...tokens].reverse().find((token) => SKIDDING_TOKEN.test(token));
+  const skidding = skiddingToken?.replace('skidding:', '');
+  return { placement, distance, skidding };
 }
 
 function generateTooltipId(
@@ -81,7 +100,8 @@ function generateTooltipId(
 function isTooltipParam(token: string): boolean {
   return (
     Object.values(TOOLTIP_ATTRIBUTES).some((values) => values.includes(token)) ||
-    DISTANCE_TOKEN.test(token)
+    DISTANCE_TOKEN.test(token) ||
+    SKIDDING_TOKEN.test(token)
   );
 }
 
@@ -116,6 +136,7 @@ function buildTooltipHtml(
 
   const tooltipAttrs = [`for="${tooltipId}"`, `placement="${options.placement}"`];
   if (options.distance) tooltipAttrs.push(`distance="${options.distance}"`);
+  if (options.skidding) tooltipAttrs.push(`skidding="${options.skidding}"`);
 
   const anchor = buildAnchor(tooltipId, anchorContent);
   return `${anchor}<wa-tooltip ${tooltipAttrs.join(' ')}>${tipEscaped}</wa-tooltip>`;

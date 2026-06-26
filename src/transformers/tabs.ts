@@ -56,10 +56,29 @@ function extractTabsAndPanels(tabsBlock: string): { tabs: string[]; tabPanels: s
     const title = match[1]!;
     const panelContent = match[2]!;
     const tabId = `tab-${index + 1}`;
-    tabs.push(`<wa-tab panel="${tabId}">${title.trim()}</wa-tab>`);
+    const [label, disabled] = parseTabHeader(title);
+
+    const tabAttrs = [`panel="${tabId}"`];
+    if (disabled) tabAttrs.push('disabled');
+    tabs.push(`<wa-tab ${tabAttrs.join(' ')}>${label}</wa-tab>`);
+
     const panelHtml = renderMarkdown(panelContent.trim());
     tabPanels.push(`<wa-tab-panel name="${tabId}">${panelHtml}</wa-tab-panel>`);
     index += 1;
   }
   return { tabs, tabPanels };
+}
+
+/**
+ * Parse a tab item header. A leading `disabled` token (case-sensitive, exactly
+ * `disabled` or `disabled `-prefixed) flags the tab as disabled and is stripped
+ * from the label; otherwise the label is the stripped title, unchanged. Mirrors
+ * accordion's leading item flags.
+ */
+function parseTabHeader(title: string): [string, boolean] {
+  const stripped = title.trim();
+  if (stripped !== 'disabled' && !stripped.startsWith('disabled ')) {
+    return [stripped, false];
+  }
+  return [stripped.replace(/^disabled\s*/, ''), true];
 }

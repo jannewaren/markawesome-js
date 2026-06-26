@@ -22,6 +22,27 @@ const CORPUS: Array<{ name: string; input: string }> = [
   { name: 'tag-inline', input: 'Status: @@@ success icon:check Done @@@ ok' },
   { name: 'comparison', input: '|||50\n![Before](b.jpg)\n![After](a.jpg)\n|||' },
   { name: 'tooltip', input: '(((distance:5 API term >>> Application Programming Interface)))' },
+  {
+    name: 'popover-aligned-skidding-block',
+    input: '&&&bottom-start skidding:12\nTrigger\n>>>\nBody\n&&&',
+  },
+  {
+    name: 'popover-aligned-skidding-inline',
+    input: 'Click &&&right-start skidding:-4 here >>> Aligned popover&&& now.',
+  },
+  {
+    name: 'tooltip-aligned-skidding-inline',
+    input: '(((right-end skidding:-4 API >>> Application Programming Interface)))',
+  },
+  {
+    name: 'tooltip-aligned-skidding-block',
+    input: ':::wa-tooltip bottom-end distance:8 skidding:12\nREST\n>>>\nRepresentational State Transfer\n:::',
+  },
+  {
+    name: 'tabs-disabled',
+    input:
+      '++++++top\n+++ Tab 1\nContent 1\n+++\n+++ disabled Coming soon\nNot yet available.\n+++\n++++++',
+  },
   { name: 'layout-flank', input: '::::flank start size:200px content:60% gap:m\nSide\n::::' },
   { name: 'date-inline-style', input: 'Published [[[2026-06-26 style:long]]].' },
   {

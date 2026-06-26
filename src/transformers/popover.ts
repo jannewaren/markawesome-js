@@ -9,7 +9,21 @@ import { applyPatterns, dualSyntaxPatterns, escapeHtml, md5Hex8, type Pattern } 
  *   Alternative: :::wa-popover params\ntrigger\n>>>\ncontent\n:::
  */
 const POPOVER_ATTRIBUTES: AttributeSchema = {
-  placement: ['top', 'bottom', 'left', 'right'],
+  // The full wa-popover placement surface: the 4 primary plus 8 aligned variants.
+  placement: [
+    'top',
+    'top-start',
+    'top-end',
+    'right',
+    'right-start',
+    'right-end',
+    'bottom',
+    'bottom-start',
+    'bottom-end',
+    'left',
+    'left-start',
+    'left-end',
+  ],
   without_arrow: ['without-arrow'],
   trigger_style: ['link'],
 };
@@ -19,6 +33,8 @@ const PRIMARY_REGEX = /^&&&([^\n]*)$\n([\s\S]*?)\n^>>>$\n([\s\S]*?)\n^&&&$/gm;
 const ALTERNATIVE_REGEX = /^:::wa-popover([^\n]*)$\n([\s\S]*?)\n^>>>$\n([\s\S]*?)\n^:::$/gm;
 
 const DISTANCE_TOKEN = /^distance:\d+$/;
+// Skidding offsets along the target axis and may be negative.
+const SKIDDING_TOKEN = /^skidding:-?\d+$/;
 
 const LINK_TRIGGER_STYLE =
   'background: none; border: none; padding: 0; ' +
@@ -30,6 +46,7 @@ interface PopoverOptions {
   placement: string;
   withoutArrow: boolean;
   distance: string | undefined;
+  skidding: string | undefined;
   linkStyle?: boolean;
 }
 
@@ -43,12 +60,13 @@ export function transform(content: string): string {
       const combined = captures[0] ?? '';
       const popoverContent = (captures[1] ?? '').trim();
       const [paramsString, triggerText] = parseInlineTriggerAndParams(combined);
-      const { placement, withoutArrow, distance } = parseParameters(paramsString);
+      const { placement, withoutArrow, distance, skidding } = parseParameters(paramsString);
       const popoverId = generatePopoverId(triggerText, popoverContent, seenIds);
       return buildInlinePopoverHtml(popoverId, triggerText, popoverContent, {
         placement,
         withoutArrow,
         distance,
+        skidding,
       });
     },
   };
@@ -56,13 +74,14 @@ export function transform(content: string): string {
   const blockProc = (paramsString = '', triggerTextRaw = '', popoverContentRaw = ''): string => {
     const triggerText = triggerTextRaw.trim();
     const popoverContent = popoverContentRaw.trim();
-    const { placement, withoutArrow, distance, linkStyle } = parseParameters(paramsString);
+    const { placement, withoutArrow, distance, skidding, linkStyle } = parseParameters(paramsString);
     const popoverId = generatePopoverId(triggerText, popoverContent, seenIds);
     const contentHtml = renderMarkdown(popoverContent);
     return buildPopoverHtml(popoverId, triggerText, contentHtml, {
       placement,
       withoutArrow,
       distance,
+      skidding,
       linkStyle,
     });
   };
@@ -76,7 +95,13 @@ export function transform(content: string): string {
 
 function parseParameters(paramsString: string): PopoverOptions {
   if (!paramsString || paramsString.trim() === '') {
-    return { placement: 'top', withoutArrow: false, distance: undefined, linkStyle: false };
+    return {
+      placement: 'top',
+      withoutArrow: false,
+      distance: undefined,
+      skidding: undefined,
+      linkStyle: false,
+    };
   }
   const attributes = parseAttributes(paramsString, POPOVER_ATTRIBUTES);
   const placement = attributes.placement || 'top';
@@ -85,7 +110,9 @@ function parseParameters(paramsString: string): PopoverOptions {
   const tokens = paramsString.trim().split(/\s+/);
   const distanceToken = tokens.find((token) => DISTANCE_TOKEN.test(token));
   const distance = distanceToken?.replace('distance:', '');
-  return { placement, withoutArrow, distance, linkStyle };
+  const skiddingToken = tokens.find((token) => SKIDDING_TOKEN.test(token));
+  const skidding = skiddingToken?.replace('skidding:', '');
+  return { placement, withoutArrow, distance, skidding, linkStyle };
 }
 
 function generatePopoverId(
@@ -102,7 +129,8 @@ function generatePopoverId(
 function isPopoverParam(token: string): boolean {
   return (
     Object.values(POPOVER_ATTRIBUTES).some((values) => values.includes(token)) ||
-    DISTANCE_TOKEN.test(token)
+    DISTANCE_TOKEN.test(token) ||
+    SKIDDING_TOKEN.test(token)
   );
 }
 
@@ -138,6 +166,7 @@ function buildInlinePopoverHtml(
   const popoverAttrs = [`for='${popoverId}'`, `placement='${options.placement}'`];
   if (options.withoutArrow) popoverAttrs.push('without-arrow');
   if (options.distance) popoverAttrs.push(`distance='${options.distance}'`);
+  if (options.skidding) popoverAttrs.push(`skidding='${options.skidding}'`);
 
   const trigger = buildTrigger(popoverId, triggerContent, true);
   return `${trigger}<wa-popover ${popoverAttrs.join(' ')}>${contentEscaped}</wa-popover>`;
@@ -154,6 +183,7 @@ function buildPopoverHtml(
   const popoverAttrs = [`for='${popoverId}'`, `placement='${options.placement}'`];
   if (options.withoutArrow) popoverAttrs.push('without-arrow');
   if (options.distance) popoverAttrs.push(`distance='${options.distance}'`);
+  if (options.skidding) popoverAttrs.push(`skidding='${options.skidding}'`);
 
   const trigger = buildTrigger(popoverId, triggerContent, options.linkStyle ?? false);
   return [trigger, `<wa-popover ${popoverAttrs.join(' ')}>`, contentHtml, '</wa-popover>'].join('\n');
