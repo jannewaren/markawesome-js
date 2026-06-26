@@ -17,3 +17,4 @@ export * as popover from './popover.js';
 export * as tabs from './tabs.js';
 export * as tag from './tag.js';
 export * as tooltip from './tooltip.js';
+export * as video from './video.js';

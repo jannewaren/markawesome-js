@@ -18,6 +18,7 @@ import * as popover from './transformers/popover.js';
 import * as tabs from './transformers/tabs.js';
 import * as tag from './transformers/tag.js';
 import * as tooltip from './transformers/tooltip.js';
+import * as video from './transformers/video.js';
 
 export interface ProcessOptions {
   /**
@@ -49,6 +50,7 @@ export function process(content: string, options: ProcessOptions = {}): string {
   c = card.transform(c);
   c = carousel.transform(c);
   c = comparison.transform(c);
+  c = video.transform(c);
   c = copyButton.transform(c);
   c = details.transform(c);
 

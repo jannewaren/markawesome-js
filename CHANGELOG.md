@@ -8,6 +8,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- New `video` transformer producing Web Awesome's two media components — `<wa-video>` (a single embedded video) and `<wa-video-playlist>` (a playlist of `<wa-video>` children). A byte-for-byte mirror of the Ruby `VideoTransformer` (parity locked by `test/parity-corpus.test.ts` and exact-string assertions in `test/video.test.ts`); it runs in the pipeline immediately after `comparison`.
+  - **Single video**: `;;;<tokens>` … `;;;`. **Playlist**: a `;;;;;;<tokens>` container wrapping bare `;;;` items (mirroring the carousel `~~~`/`~~~~~~` structure). Block alternatives `:::wa-video` / `:::wa-video-playlist`.
+  - **Body**: the first markdown link `[text](url)` → `title`/`src`; the first markdown image `![alt](url)` → `poster` (a negative lookbehind keeps the image from being read as the link). A block with no link is left untransformed.
+  - **Tokens**: `controls:none|standard|full`, `preload:auto|metadata|none` (enum-validated, invalid values dropped), and the boolean flags `autoplay`, `autoplay-muted`, `autoplay-on-visible`, `loop`, `muted` (whole-token matched). The playlist forwards `controls` to the container only; children omit it. Emission order, HTML-escaping, and the "no link ⇒ untransformed" guard match the Ruby engine exactly. (No `renderAsMarkdown`, matching the rest of this engine.)
 - New `date` transformer producing Web Awesome's two declarative timestamp components — `<wa-format-date>` (an absolute, locale-formatted date) and `<wa-relative-time>` ("3 days ago", optionally live-ticking). A byte-for-byte mirror of the Ruby `DateTransformer` (parity locked by `test/parity-corpus.test.ts`), it runs in the pipeline right after `tooltip`.
   - **Inline syntax** (primary): `[[[ <date> <tokens> ]]]` — triple square brackets, single-line, transformed before the host markdown processor.
   - **Block alternative**: `:::wa-format-date <date> <tokens>` / `:::wa-relative-time <date> <tokens>` with an empty body closed by `:::`; the selector name chooses the mode.

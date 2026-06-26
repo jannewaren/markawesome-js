@@ -57,3 +57,11 @@ exports[`parity corpus (locked to Ruby-matching output) > tooltip 1`] = `"<span 
 exports[`parity corpus (locked to Ruby-matching output) > tooltip-aligned-skidding-block 1`] = `"<span id="tooltip-d8acae7a" tabindex="0" class="ma-tooltip-anchor" style="text-decoration: underline dotted; cursor: help;">REST</span><wa-tooltip for="tooltip-d8acae7a" placement="bottom-end" distance="8" skidding="12">Representational State Transfer</wa-tooltip>"`;
 
 exports[`parity corpus (locked to Ruby-matching output) > tooltip-aligned-skidding-inline 1`] = `"<span id="tooltip-62ab914f" tabindex="0" class="ma-tooltip-anchor" style="text-decoration: underline dotted; cursor: help;">API</span><wa-tooltip for="tooltip-62ab914f" placement="right-end" skidding="-4">Application Programming Interface</wa-tooltip>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > video-alt 1`] = `"<wa-video src="v.mp4" title="Clip" preload="none" loop></wa-video>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > video-block 1`] = `"<wa-video src="test_video.mp4" poster="test_video_poster.jpg" title="My Clip" controls="full" autoplay muted></wa-video>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > video-playlist-alt 1`] = `"<wa-video-playlist controls="none"><wa-video src="1.mp4" title="One"></wa-video><wa-video src="2.mp4" poster="2.jpg" title="Two"></wa-video></wa-video-playlist>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > video-playlist-block 1`] = `"<wa-video-playlist controls="standard"><wa-video src="a.mp4" poster="a.jpg" title="Part 1"></wa-video><wa-video src="b.mp4" title="Part 2"></wa-video></wa-video-playlist>"`;

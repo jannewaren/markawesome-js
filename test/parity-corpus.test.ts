@@ -53,6 +53,19 @@ const CORPUS: Array<{ name: string; input: string }> = [
   { name: 'date-relative', input: 'Updated [[[relative 2026-06-20 format:short numeric:always]]].' },
   { name: 'date-relative-sync', input: 'Live [[[relative 2026-06-20 sync]]]' },
   { name: 'date-block', input: ':::wa-format-date 2026-06-26 style:full lang:fr\n:::' },
+  {
+    name: 'video-block',
+    input: ';;;controls:full autoplay muted\n[My Clip](test_video.mp4)\n![Poster](test_video_poster.jpg)\n;;;',
+  },
+  { name: 'video-alt', input: ':::wa-video preload:none loop\n[Clip](v.mp4)\n:::' },
+  {
+    name: 'video-playlist-block',
+    input: ';;;;;;controls:standard\n;;;\n[Part 1](a.mp4)\n![Poster A](a.jpg)\n;;;\n;;;\n[Part 2](b.mp4)\n;;;\n;;;;;;',
+  },
+  {
+    name: 'video-playlist-alt',
+    input: ':::wa-video-playlist controls:none\n;;;\n[One](1.mp4)\n;;;\n;;;\n[Two](2.mp4)\n![P](2.jpg)\n;;;\n:::',
+  },
 ];
 
 describe('parity corpus (locked to Ruby-matching output)', () => {
