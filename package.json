@@ -1,0 +1,76 @@
+{
+  "name": "markawesome-js",
+  "version": "0.1.0",
+  "description": "Framework-agnostic Markdown to Web Awesome component transformer (TypeScript port of the markawesome Ruby gem)",
+  "keywords": [
+    "markdown",
+    "web-awesome",
+    "webawesome",
+    "web-components",
+    "transformer",
+    "static-site-generator"
+  ],
+  "homepage": "https://github.com/jannewaren/markawesome-js",
+  "bugs": {
+    "url": "https://github.com/jannewaren/markawesome-js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jannewaren/markawesome-js.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Janne Warén",
+    "email": "janne.waren@iki.fi"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE.txt"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "prepublishOnly": "npm run check"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^20.14.0",
+    "eslint": "^9.10.0",
+    "prettier": "^3.3.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.8.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
