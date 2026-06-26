@@ -11,6 +11,30 @@ compatible TypeScript port of the [markawesome](https://github.com/jannewaren/ma
 Ruby gem. The Eleventy integration lives in a separate package
 (`eleventy-plugin-webawesome`); this repo is only the engine.
 
+## The markawesome ecosystem — keep the syntax in sync
+
+The Markawesome-flavoured Markdown syntax spans **five repositories that must
+stay in lockstep**:
+
+| Repo | Role | Stack | Registry |
+|------|------|-------|----------|
+| `markawesome` | **Authors** the syntax (engine) | Ruby | RubyGems |
+| `markawesome-js` | **Authors** the syntax (engine) | TypeScript / Node | npm |
+| `jekyll-webawesome` | **Uses** it (Jekyll integration) | Ruby | RubyGems |
+| `eleventy-plugin-webawesome` | **Uses** it (Eleventy integration) | Node | npm |
+| `markawesome-vscode` | **Produces** it (snippets/completions/validation) | TypeScript | VS Code Marketplace |
+
+**This repo's role:** **authors** the syntax — the Node engine, kept byte-for-byte
+compatible with the Ruby `markawesome` engine (see "Ruby parity" below). Mirror any
+syntax change in `markawesome` and reflect it in `markawesome-vscode`.
+
+**Sync rule:** any change to the Markawesome Markdown syntax must land in **both
+engines** (`markawesome` *and* `markawesome-js`) so the Ruby and Node worlds accept
+identical input, **and** in `markawesome-vscode` so the editor emits it. The VS Code
+extension is shared across both worlds, so it may only produce syntax that **both**
+engines support. Confirm the engines still agree via this repo's
+`test/parity-corpus.test.ts` plus the Ruby specs in `markawesome/spec/`.
+
 ## Commands
 
 ```bash
@@ -101,3 +125,15 @@ changing transformer behaviour, parity is the spec, not the local tests alone.
 - Prettier: single quotes, trailing commas, 100-col, semicolons.
 - Tests live in `test/*.test.ts`, one per transformer plus `process`/`config`/
   `parity-corpus`; they import from `../src/...js`.
+
+## Releases are tagged to match the published version
+
+The full publish steps are in `RELEASING.md`. In addition, every version
+published to npm gets a matching **GitHub Release**, so the repo's releases line
+up 1:1 with what's installable:
+
+1. Tag the released commit `vX.Y.Z` — the same version as `package.json`.
+2. Push the commit and the tag.
+3. `gh release create vX.Y.Z` with notes drawn from `CHANGELOG.md`.
+
+The GitHub Release tag **must equal** the version published to npm.
