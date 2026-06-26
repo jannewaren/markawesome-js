@@ -7,6 +7,7 @@ export * as card from './card.js';
 export * as carousel from './carousel.js';
 export * as comparison from './comparison.js';
 export * as copyButton from './copy-button.js';
+export * as date from './date.js';
 export * as details from './details.js';
 export * as dialog from './dialog.js';
 export * as icon from './icon.js';

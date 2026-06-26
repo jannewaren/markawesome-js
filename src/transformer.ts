@@ -7,6 +7,7 @@ import * as card from './transformers/card.js';
 import * as carousel from './transformers/carousel.js';
 import * as comparison from './transformers/comparison.js';
 import * as copyButton from './transformers/copy-button.js';
+import * as date from './transformers/date.js';
 import * as details from './transformers/details.js';
 import * as dialog from './transformers/dialog.js';
 import * as icon from './transformers/icon.js';
@@ -41,6 +42,7 @@ export function process(content: string, options: ProcessOptions = {}): string {
   c = layout.transform(c);
   c = popover.transform(c);
   c = tooltip.transform(c);
+  c = date.transform(c);
   c = badge.transform(c);
   c = button.transform(c);
   c = callout.transform(c);
