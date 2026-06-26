@@ -111,9 +111,22 @@ changing transformer behaviour, parity is the spec, not the local tests alone.
   (`xhtmlOut: true`, typographer off, custom heading-id core rule). It is
   bundled (not externalized) so inner rendering stays deterministic regardless
   of the host's markdown-it.
+  - **wa-block rule (`wa-block-rule.ts`):** markdown-it doesn't recognise an
+    already-transformed block `<wa-*>` component (a callout nested in an
+    accordion item, etc.) as an HTML block, so it wrapped it in a `<p>` — which
+    Kramdown does not. This rule treats block-level `<wa-*>` as a pass-through
+    HTML block so nested components stay byte-identical to Ruby (and don't render
+    empty in the browser, where the stray `<p>` ejects the component body). It
+    fires only on a line that *starts* with an opening `<wa-NAME>` tag, balances
+    the same tag name to find the close, bails for inline components spliced into
+    prose, and restores Kramdown's trailing newline on the final block. Locked by
+    the `*-in-accordion`/`-card`/`-tab-panel`/`-details` parity-corpus cases and
+    `test/markdown.test.ts`.
 - Known intentional divergences (cosmetic only): markdown list `<li>`
-  indentation and standalone-`<img>` wrapping differ from Kramdown but render
-  identically. See README "Parity with the Ruby engine".
+  indentation, standalone-`<img>` wrapping, and blank lines *between* sibling
+  blocks (markdown-it collapses `\n\n`→`\n`; Kramdown keeps the blank line)
+  differ from Kramdown but render identically. See README "Parity with the Ruby
+  engine".
 
 ## Conventions
 

@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import type Token from 'markdown-it/lib/token.mjs';
+import { waBlockRule } from './wa-block-rule.js';
 
 /**
  * Internal markdown renderer used to convert the inner content of Web Awesome
@@ -24,6 +25,14 @@ const md = new MarkdownIt({
   breaks: false,
   linkify: false,
   typographer: false,
+});
+
+// Treat a block-level `<wa-*>` component as a pass-through HTML block, matching
+// Kramdown: when a container body contains an already-transformed block
+// component (e.g. a callout nested in an accordion item), don't wrap it in a
+// `<p>`. See {@link waBlockRule}.
+md.block.ruler.before('html_block', 'wa_block', waBlockRule, {
+  alt: ['paragraph', 'reference', 'blockquote'],
 });
 
 /**

@@ -66,6 +66,25 @@ const CORPUS: Array<{ name: string; input: string }> = [
     name: 'video-playlist-alt',
     input: ':::wa-video-playlist controls:none\n;;;\n[One](1.mp4)\n;;;\n;;;\n[Two](2.mp4)\n![P](2.jpg)\n;;;\n:::',
   },
+  // Nested block components inside container item bodies. The internal renderer
+  // must not wrap these in a `<p>` — Kramdown doesn't, so neither does the Node
+  // engine (see src/wa-block-rule.ts). Snapshots verified byte-identical to Ruby.
+  {
+    name: 'callout-in-accordion',
+    input: '//////\n/// Section\n\n:::success\nNested **callout** text.\n:::\n\n///\n//////',
+  },
+  {
+    name: 'callout-in-card',
+    input: '===\n:::warning\nCard-nested callout.\n:::\n===',
+  },
+  {
+    name: 'callout-in-tab-panel',
+    input: '++++++\n+++ Tab 1\n:::info\nTab callout body.\n:::\n+++\n++++++',
+  },
+  {
+    name: 'callout-in-details',
+    input: '^^^\nSummary\n>>>\n:::info\nDetails callout.\n:::\n^^^',
+  },
 ];
 
 describe('parity corpus (locked to Ruby-matching output)', () => {

@@ -14,6 +14,31 @@ exports[`parity corpus (locked to Ruby-matching output) > callout-attrs 1`] = `
 </wa-callout>"
 `;
 
+exports[`parity corpus (locked to Ruby-matching output) > callout-in-accordion 1`] = `
+"<wa-accordion appearance="outlined"><wa-accordion-item label="Section"><wa-callout variant="success"><wa-icon slot="icon" name="circle-check" variant="solid"></wa-icon><p>Nested <strong>callout</strong> text.</p>
+</wa-callout>
+</wa-accordion-item></wa-accordion>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > callout-in-card 1`] = `
+"<wa-card><wa-callout variant="warning"><wa-icon slot="icon" name="triangle-exclamation" variant="solid"></wa-icon><p>Card-nested callout.</p>
+</wa-callout>
+</wa-card>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > callout-in-details 1`] = `
+"<wa-details appearance='outlined' icon-placement='end'><span slot='summary'><p>Summary</p>
+</span><wa-callout variant="brand"><wa-icon slot="icon" name="circle-info" variant="solid"></wa-icon><p>Details callout.</p>
+</wa-callout>
+</wa-details>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > callout-in-tab-panel 1`] = `
+"<wa-tab-group placement="top"><wa-tab panel="tab-1">Tab 1</wa-tab><wa-tab-panel name="tab-1"><wa-callout variant="brand"><wa-icon slot="icon" name="circle-info" variant="solid"></wa-icon><p>Tab callout body.</p>
+</wa-callout>
+</wa-tab-panel></wa-tab-group>"
+`;
+
 exports[`parity corpus (locked to Ruby-matching output) > comparison 1`] = `"<wa-comparison position="50"><img slot="before" src="b.jpg" alt="Before" /><img slot="after" src="a.jpg" alt="After" /></wa-comparison>"`;
 
 exports[`parity corpus (locked to Ruby-matching output) > date-block 1`] = `"<wa-format-date date="2026-06-26" weekday="long" year="numeric" month="long" day="numeric" lang="fr"></wa-format-date>"`;
