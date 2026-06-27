@@ -18,6 +18,7 @@ import * as popover from './transformers/popover.js';
 import * as tabs from './transformers/tabs.js';
 import * as tag from './transformers/tag.js';
 import * as tooltip from './transformers/tooltip.js';
+import * as tree from './transformers/tree.js';
 import * as video from './transformers/video.js';
 
 export interface ProcessOptions {
@@ -69,6 +70,10 @@ export function process(content: string, options: ProcessOptions = {}): string {
   // Accordion runs last so item bodies may contain other already-transformed
   // components (same reason tabs runs near the end).
   c = accordion.transform(c);
+
+  // Tree runs after accordion; its body is a plain nested list (never a
+  // markdown-converted body), so ordering relative to accordion is moot.
+  c = tree.transform(c);
 
   return codeBlockProtector.restore(c, tokens);
 }

@@ -85,6 +85,23 @@ const CORPUS: Array<{ name: string; input: string }> = [
     name: 'callout-in-details',
     input: '^^^\nSummary\n>>>\n:::info\nDetails callout.\n:::\n^^^',
   },
+  // Tree: nested Markdown bullet list -> <wa-tree>/<wa-tree-item>. Covers fence
+  // `open` + folder/file icons, deep nesting with colon-bearing element-name
+  // labels, and the `:::wa-tree` alternative with a per-node `expanded` flag.
+  {
+    name: 'tree-zip',
+    input:
+      '||||||open\n- icon:folder my-plugin\n  - icon:folder dist\n    - icon:file-code index.js\n    - icon:file-code index.d.ts\n  - icon:folder src\n    - icon:file-code index.ts\n  - icon:file README.md\n  - icon:file package.json\n- icon:file LICENSE\n||||||',
+  },
+  {
+    name: 'tree-invoice',
+    input:
+      '||||||open\n- Invoice\n  - cbc:CustomizationID\n  - cbc:ID\n  - cbc:IssueDate\n  - cac:AccountingSupplierParty\n    - cac:Party\n      - cac:PostalAddress\n      - cac:PartyLegalEntity\n  - cac:AccountingCustomerParty\n    - cac:Party\n  - cac:InvoiceLine\n    - cbc:ID\n    - cbc:InvoicedQuantity\n    - cac:Item\n      - cbc:Name\n      - cac:Price\n||||||',
+  },
+  {
+    name: 'tree-alt-per-node-expanded',
+    input: ':::wa-tree\n- expanded icon:folder src\n  - icon:file index.ts\n- README.md\n:::',
+  },
 ];
 
 describe('parity corpus (locked to Ruby-matching output)', () => {

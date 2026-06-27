@@ -6,6 +6,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- New `tree` transformer producing Web Awesome's `<wa-tree>` / `<wa-tree-item>` from a **nested Markdown bullet list** — a byte-for-byte mirror of the Ruby `TreeTransformer` (parity locked by new `tree-zip` / `tree-invoice` / `tree-alt-per-node-expanded` cases in `test/parity-corpus.test.ts` plus exact-string assertions in `test/tree.test.ts`). It runs last in the pipeline (after `accordion`).
+  - **Static-only scope**: the tree's `selection`/`lazy`/`selected` features are interactive (need JS) and are skipped entirely; we emit a display/navigation-only tree (nesting, initial expand state, leading icons).
+  - **Primary syntax**: a single `||||||` (6 pipes) open fence wrapping a normal nested Markdown list, closed by `||||||`. **Block alternative**: `:::wa-tree … :::`.
+  - **Fence token** `open` (alias `expanded`) marks every branch node `expanded`; **per-node leading tokens** (stripped from the label): `expanded` forces one branch open and `icon:name` emits a leading content `<wa-icon name="name">` with no `slot`. **WA runtime caveat** (verified against the WA 3.9.0 kit): `<wa-tree-item>` only honors a static `expanded` on items visible at load, so `open` expands the **top-level** branches and deeper branches stay collapsed until opened (WA strips `expanded` from nested items at init). The attribute is still emitted on every branch — harmless, records authorial intent, and forward-compatible.
+  - The indentation parser keeps list lines (`-`/`*`/`+`), measures leading-whitespace width (tab = 4 columns), and nests by comparing actual indent values, so 2-space and 4-space lists both work. Labels are plain text (HTML-escaped), so colon-bearing labels like `cbc:ID` are safe. `expanded` is emitted only on nodes that have children AND (fence open OR the node's own flag); leaves never get it. The Ruby→JS regex translation follows the documented rules (`gm` flags, `[\s\S]*?` for the newline-spanning body, `\|{6}`). (No `renderAsMarkdown`, matching the rest of this engine.)
+
 ## [0.2.0] - 2026-06-26
 
 ### Added
