@@ -15,6 +15,7 @@ import * as imageDialog from './transformers/image-dialog.js';
 import type { ImageDialogConfig } from './transformers/image-dialog.js';
 import * as layout from './transformers/layout.js';
 import * as popover from './transformers/popover.js';
+import * as randomContent from './transformers/random-content.js';
 import * as tabs from './transformers/tabs.js';
 import * as tag from './transformers/tag.js';
 import * as tooltip from './transformers/tooltip.js';
@@ -74,6 +75,13 @@ export function process(content: string, options: ProcessOptions = {}): string {
   // Tree runs after accordion; its body is a plain nested list (never a
   // markdown-converted body), so ordering relative to accordion is moot.
   c = tree.transform(c);
+
+  // Random-content runs LAST: its options routinely wrap already-transformed
+  // components (callouts/badges/cards), and dialog/details/popover/tooltip must
+  // consume their own `>>>` upstream before our `^>>>$` item split runs. A
+  // `......` block is thus the outermost container and cannot be nested inside
+  // another container body (same constraint tree documents).
+  c = randomContent.transform(c);
 
   return codeBlockProtector.restore(c, tokens);
 }

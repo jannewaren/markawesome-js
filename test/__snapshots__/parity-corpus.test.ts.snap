@@ -33,6 +33,12 @@ exports[`parity corpus (locked to Ruby-matching output) > callout-in-details 1`]
 </wa-details>"
 `;
 
+exports[`parity corpus (locked to Ruby-matching output) > callout-in-random-content 1`] = `
+"<wa-random-content><div><wa-callout variant="success"><wa-icon slot="icon" name="circle-check" variant="solid"></wa-icon><p>Nested <strong>callout</strong> text.</p>
+</wa-callout>
+</div></wa-random-content>"
+`;
+
 exports[`parity corpus (locked to Ruby-matching output) > callout-in-tab-panel 1`] = `
 "<wa-tab-group placement="top"><wa-tab panel="tab-1">Tab 1</wa-tab><wa-tab-panel name="tab-1"><wa-callout variant="brand"><wa-icon slot="icon" name="circle-info" variant="solid"></wa-icon><p>Tab callout body.</p>
 </wa-callout>
@@ -68,6 +74,30 @@ exports[`parity corpus (locked to Ruby-matching output) > popover-aligned-skiddi
 `;
 
 exports[`parity corpus (locked to Ruby-matching output) > popover-aligned-skidding-inline 1`] = `"Click <button type='button' id='popover-4a7c813a' class='ma-popover-trigger' style='background: none; border: none; padding: 0; color: inherit; text-decoration: underline; text-decoration-style: dotted; cursor: pointer; font: inherit;'>here</button><wa-popover for='popover-4a7c813a' placement='right-start' skidding='-4'>Aligned popover</wa-popover> now."`;
+
+exports[`parity corpus (locked to Ruby-matching output) > random-content 1`] = `
+"<wa-random-content mode="random" items="2" animation="fade"><div><p>A <strong>testimonial</strong> or tip</p>
+</div><div><p>Another option</p>
+</div></wa-random-content>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > random-content-alt 1`] = `
+"<wa-random-content mode="sequence"><div><p>First option</p>
+</div><div><p>Second option</p>
+</div></wa-random-content>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > random-content-autoplay 1`] = `
+"<wa-random-content items="1" autoplay autoplay-interval="4000"><div><p>Tip one</p>
+</div><div><p>Tip two</p>
+</div><div><p>Tip three</p>
+</div></wa-random-content>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > random-content-single 1`] = `
+"<wa-random-content><div><p>Just the one option</p>
+</div></wa-random-content>"
+`;
 
 exports[`parity corpus (locked to Ruby-matching output) > tabs-disabled 1`] = `
 "<wa-tab-group placement="top"><wa-tab panel="tab-1">Tab 1</wa-tab><wa-tab panel="tab-2" disabled>Coming soon</wa-tab><wa-tab-panel name="tab-1"><p>Content 1</p>

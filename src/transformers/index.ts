@@ -14,6 +14,7 @@ export * as icon from './icon.js';
 export * as imageDialog from './image-dialog.js';
 export * as layout from './layout.js';
 export * as popover from './popover.js';
+export * as randomContent from './random-content.js';
 export * as tabs from './tabs.js';
 export * as tag from './tag.js';
 export * as tooltip from './tooltip.js';

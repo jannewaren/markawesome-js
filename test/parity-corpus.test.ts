@@ -102,6 +102,32 @@ const CORPUS: Array<{ name: string; input: string }> = [
     name: 'tree-alt-per-node-expanded',
     input: ':::wa-tree\n- expanded icon:folder src\n  - icon:file index.ts\n- README.md\n:::',
   },
+  // Random-content: `......` fence + `>>>` option separator -> <wa-random-content>
+  // with each option wrapped in one <div>. Covers the combined param example,
+  // the `:::wa-random-content` alternative, autoplay + interval with three
+  // options, a single option (no separator), and — because random-content runs
+  // last — an already-transformed callout wrapped inside an option <div>.
+  {
+    name: 'random-content',
+    input:
+      '......mode:random items:2 animation:fade\nA **testimonial** or tip\n>>>\nAnother option\n......',
+  },
+  {
+    name: 'random-content-alt',
+    input: ':::wa-random-content sequence\nFirst option\n>>>\nSecond option\n:::',
+  },
+  {
+    name: 'random-content-autoplay',
+    input: '......autoplay autoplay-interval:4000 items:1\nTip one\n>>>\nTip two\n>>>\nTip three\n......',
+  },
+  {
+    name: 'random-content-single',
+    input: '......\nJust the one option\n......',
+  },
+  {
+    name: 'callout-in-random-content',
+    input: '......\n:::success\nNested **callout** text.\n:::\n......',
+  },
 ];
 
 describe('parity corpus (locked to Ruby-matching output)', () => {
