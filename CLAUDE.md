@@ -139,6 +139,13 @@ changing transformer behaviour, parity is the spec, not the local tests alone.
 - Tests live in `test/*.test.ts`, one per transformer plus `process`/`config`/
   `parity-corpus`; they import from `../src/...js`.
 
+## Branching & Commits
+
+This repo works directly on `main` — there is **no feature-branch convention**.
+Commit changes, including version bumps, straight to `main`; do not create a branch
+when asked to commit. Releases are then taken as **tags from `main`** (see "Releases
+are tagged to match the published version" below).
+
 ## Releases are tagged to match the published version
 
 The full publish steps are in `RELEASING.md`. In addition, every version
