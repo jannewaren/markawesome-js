@@ -128,6 +128,22 @@ const CORPUS: Array<{ name: string; input: string }> = [
     name: 'callout-in-random-content',
     input: '......\n:::success\nNested **callout** text.\n:::\n......',
   },
+  // Icon: WA 3.10.0 attribute sync — the new `canvas` attribute (emitted last),
+  // the `semibold` variant, a new family, a new animation, and the full
+  // `family variant animation canvas` emission order in one block. Also a callout
+  // forwarding the new tokens (family/variant/animation) to its slotted icon.
+  {
+    name: 'icon-3.10-canvas',
+    input: ':::wa-icon star roomy\n:::',
+  },
+  {
+    name: 'icon-3.10-full-order',
+    input: ':::wa-icon star sharp semibold wag roomy\n:::',
+  },
+  {
+    name: 'callout-icon-3.10',
+    input: ':::danger jelly semibold wag\nWatch out\n:::',
+  },
 ];
 
 describe('parity corpus (locked to Ruby-matching output)', () => {

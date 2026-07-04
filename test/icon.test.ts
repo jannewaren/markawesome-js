@@ -72,6 +72,31 @@ describe('IconTransformer.transform', () => {
         '<wa-icon name="star" animation="spin"></wa-icon>',
       );
     });
+    it('canvas', () => {
+      expect(transform(':::wa-icon star roomy\n:::')).toBe(
+        '<wa-icon name="star" canvas="roomy"></wa-icon>',
+      );
+    });
+    it('semibold variant (WA 3.10.0)', () => {
+      expect(transform(':::wa-icon star semibold\n:::')).toBe(
+        '<wa-icon name="star" variant="semibold"></wa-icon>',
+      );
+    });
+    it('WA 3.10.0 family', () => {
+      expect(transform(':::wa-icon star jelly\n:::')).toBe(
+        '<wa-icon name="star" family="jelly"></wa-icon>',
+      );
+    });
+    it('WA 3.10.0 animation', () => {
+      expect(transform(':::wa-icon star wag\n:::')).toBe(
+        '<wa-icon name="star" animation="wag"></wa-icon>',
+      );
+    });
+    it('family, variant, animation, canvas in deterministic order', () => {
+      expect(transform(':::wa-icon star sharp semibold wag roomy\n:::')).toBe(
+        '<wa-icon name="star" family="sharp" variant="semibold" animation="wag" canvas="roomy"></wa-icon>',
+      );
+    });
     it('deterministic order with label', () => {
       expect(transform(':::wa-icon star spin solid sharp\nFeatured\n:::')).toBe(
         '<wa-icon name="star" family="sharp" variant="solid" animation="spin" label="Featured"></wa-icon>',

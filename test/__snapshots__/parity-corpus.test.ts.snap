@@ -14,6 +14,11 @@ exports[`parity corpus (locked to Ruby-matching output) > callout-attrs 1`] = `
 </wa-callout>"
 `;
 
+exports[`parity corpus (locked to Ruby-matching output) > callout-icon-3.10 1`] = `
+"<wa-callout variant="danger"><wa-icon slot="icon" name="circle-exclamation" family="jelly" variant="semibold" animation="wag"></wa-icon><p>Watch out</p>
+</wa-callout>"
+`;
+
 exports[`parity corpus (locked to Ruby-matching output) > callout-in-accordion 1`] = `
 "<wa-accordion appearance="outlined"><wa-accordion-item label="Section"><wa-callout variant="success"><wa-icon slot="icon" name="circle-check" variant="solid"></wa-icon><p>Nested <strong>callout</strong> text.</p>
 </wa-callout>
@@ -58,6 +63,10 @@ exports[`parity corpus (locked to Ruby-matching output) > date-inline-style 1`] 
 exports[`parity corpus (locked to Ruby-matching output) > date-relative 1`] = `"Updated <wa-relative-time date="2026-06-20" format="short" numeric="always"></wa-relative-time>."`;
 
 exports[`parity corpus (locked to Ruby-matching output) > date-relative-sync 1`] = `"Live <wa-relative-time date="2026-06-20" sync></wa-relative-time>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > icon-3.10-canvas 1`] = `"<wa-icon name="star" canvas="roomy"></wa-icon>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > icon-3.10-full-order 1`] = `"<wa-icon name="star" family="sharp" variant="semibold" animation="wag" canvas="roomy"></wa-icon>"`;
 
 exports[`parity corpus (locked to Ruby-matching output) > layout-flank 1`] = `
 "<div class="wa-flank:start wa-gap-m" style="--flank-size: 200px; --content-percentage: 60%">
