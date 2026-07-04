@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-07-04
+
 ### Fixed
 
 - **Horizontal cards no longer overflow with multi-block bodies** — a byte-for-byte mirror of the Ruby fix. A `===horizontal` card whose body has more than one block (e.g. a `#` heading plus a paragraph) now wraps the body in a single `<div>` so Web Awesome's `:host([orientation='horizontal']) .body slot::slotted(*) { height: 100% }` rule targets one wrapper instead of each block; previously each was stretched to the full card height and the extras overflowed below the card. Vertical cards are unchanged. Parity locked by the new `card-horizontal-body-wrap` case in `test/parity-corpus.test.ts` plus assertions in `test/card.test.ts`.
