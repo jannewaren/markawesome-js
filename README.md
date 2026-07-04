@@ -4,6 +4,8 @@ Framework-agnostic Markdown → [Web Awesome](https://webawesome.com/) component
 transformer. A TypeScript port of the [markawesome](https://github.com/jannewaren/markawesome)
 Ruby gem, for the Node / Eleventy ecosystem.
 
+> **🔗 See it live — [hosted examples site](https://jannewaren.github.io/eleventy-plugin-webawesome/).** Every supported component shown side by side: the markawesome markdown on the left, the live Web Awesome component it renders on the right. The clearest way to see what this project does.
+
 It turns a terse custom Markdown dialect into Web Awesome web components:
 
 ```md
