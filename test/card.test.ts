@@ -47,9 +47,26 @@ describe('CardTransformer.transform', () => {
   });
 
   it('horizontal orientation', () => {
-    expect(transform('===horizontal\n![Image](image.jpg)\nx\n===\n')).toContain(
-      '<wa-card orientation="horizontal" with-media>',
-    );
+    const result = transform('===horizontal\n![Image](image.jpg)\nx\n===\n');
+    expect(result).toContain('<wa-card orientation="horizontal" with-media>');
+    // Horizontal cards wrap the body in a single <div> so Web Awesome's
+    // per-body-child `height: 100%` rule targets one wrapper, not each block.
+    expect(result).toContain('<div><p>x</p>');
+  });
+
+  it('wraps a multi-block horizontal body in one <div>', () => {
+    // Without the wrapper Web Awesome stretches each body child to full card
+    // height and the paragraph spills out below the card.
+    const result = transform('===horizontal\n![Image](image.jpg)\n# Heading\nBody.\n===\n');
+    expect(result).toContain('<div><h1 id="heading">Heading</h1>');
+    expect(result).toContain('<p>Body.</p>');
+    expect(result).toContain('</div></wa-card>');
+  });
+
+  it('does not wrap a vertical card body in a <div>', () => {
+    const result = transform('===\n# Heading\nBody.\n===\n');
+    expect(result).not.toContain('<div><h1');
+    expect(result).toContain('<h1 id="heading">Heading</h1>');
   });
 
   it('appearance + orientation any order', () => {

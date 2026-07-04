@@ -90,7 +90,14 @@ function buildCardHtml(parts: CardParts, attributes: ParsedAttributes): string {
     htmlParts.push(`<div slot="header">${renderMarkdown(parts.header)}</div>`);
   }
   if (parts.content && parts.content !== '') {
-    htmlParts.push(renderMarkdown(parts.content));
+    // Horizontal cards wrap the body in a single <div> so Web Awesome's
+    // `:host([orientation='horizontal']) .body slot::slotted(*) { height: 100% }`
+    // rule — which it applies to EVERY direct body child — targets one wrapper
+    // instead of each block. Without the wrapper a multi-block body (e.g. a
+    // heading plus a paragraph) has each child stretched to the full card
+    // height, so the extra ones overflow below it.
+    const contentHtml = renderMarkdown(parts.content);
+    htmlParts.push(orientation === 'horizontal' ? `<div>${contentHtml}</div>` : contentHtml);
   }
   if (parts.footer) {
     htmlParts.push(

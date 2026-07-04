@@ -66,6 +66,15 @@ const CORPUS: Array<{ name: string; input: string }> = [
     name: 'video-playlist-alt',
     input: ':::wa-video-playlist controls:none\n;;;\n[One](1.mp4)\n;;;\n;;;\n[Two](2.mp4)\n![P](2.jpg)\n;;;\n:::',
   },
+  // Card: a horizontal card wraps its body in a single <div> so Web Awesome's
+  // `:host([orientation='horizontal']) .body slot::slotted(*) { height: 100% }`
+  // rule targets one wrapper instead of each block — a heading + paragraph body
+  // would otherwise have each child stretched to full height and overflow.
+  {
+    name: 'card-horizontal-body-wrap',
+    input:
+      '===horizontal\n![Feature](photo.jpg)\n# Horizontal card\nMedia and content sit **side-by-side**.\n===',
+  },
   // Nested block components inside container item bodies. The internal renderer
   // must not wrap these in a `<p>` — Kramdown doesn't, so neither does the Node
   // engine (see src/wa-block-rule.ts). Snapshots verified byte-identical to Ruby.
