@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-04
+
 ### Added
 
 - **`<wa-icon>` Web Awesome 3.10.0 attribute sync** — a byte-for-byte mirror of the Ruby engine's widened icon vocabulary in `src/icon-attributes.ts` (used by both the `$$$name` / `:::wa-icon …` transformer **and**, transparently, callout icon overrides via `iconAttributePairs`). Adds a **new `canvas` attribute** (`fixed`/`auto`/`square`/`roomy`; emitted only when specified — `fixed` is WA's default), a **new `semibold` variant** (alongside `thin light regular solid`), **nine new animations** (`flip-360`, `spin-snap`, `spin-snap-4`, `spin-snap-8`, `buzz`, `float`, `jello`, `swing`, `wag`), and a **full sync of the current WA family vocabulary** (`mosaic`, `pixel`, `vellum`, `slab-duo`, `slab-press-duo`, `chisel`, `etch`, `graphite`, `jelly`, `jelly-duo`, `jelly-fill`, `notdog`, `notdog-duo`, `slab`, `slab-press`, `thumbprint`, `utility`, `utility-duo`, `utility-fill`, `whiteboard` — passthrough values whose rendering depends on the site's Font Awesome kit tier). The schema is a hard allowlist (`AttributeParser` silently drops unlisted tokens), so these values were previously unusable. `ICON_ATTRIBUTE_ORDER` appends `canvas` **last** (`family variant animation canvas`) to match Ruby's `pairs` order byte-for-byte; parity locked by the new `icon-3.10-canvas` / `icon-3.10-full-order` / `callout-icon-3.10` cases in `test/parity-corpus.test.ts` plus exact-string assertions in `test/icon.test.ts`. `auto-width` is unaffected — the engine never emitted it; `canvas="auto"` is WA's supported replacement.
@@ -73,6 +75,7 @@ target `markawesome` 0.16.0).
 - `renderAsMarkdown()` / plain-markdown rendering parity (Phase 3) is not yet
   ported.
 
-[Unreleased]: https://github.com/jannewaren/markawesome-js/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/jannewaren/markawesome-js/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/jannewaren/markawesome-js/releases/tag/v0.3.0
 [0.2.0]: https://github.com/jannewaren/markawesome-js/releases/tag/v0.2.0
 [0.1.0]: https://github.com/jannewaren/markawesome-js/releases/tag/v0.1.0
