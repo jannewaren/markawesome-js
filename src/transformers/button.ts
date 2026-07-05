@@ -38,6 +38,21 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/**
+ * Degrade a button to plain markdown: a link-form button (`[text](url)`) stays
+ * a link; any other button becomes bold `**text**`; an empty button degrades to
+ * ''.
+ */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', buttonContent = ''): string => {
+    const text = (buttonContent ?? '').trim();
+    const linkMatch = text.match(LINK_REGEX);
+    if (linkMatch) return `[${linkMatch[1]}](${linkMatch[2]})`;
+    return text === '' ? '' : `**${text}**`;
+  };
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function buildButtonHtml(
   content: string,
   attributes: ParsedAttributes,

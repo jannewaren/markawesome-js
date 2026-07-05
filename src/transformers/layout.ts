@@ -42,6 +42,13 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/** Degrade a layout container to its inner content, verbatim (no trim). */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_type = '', _paramsString = '', innerContent = ''): string =>
+    innerContent ?? '';
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function buildAttributes(type: string, paramsString: string): [string[], string[]] {
   const classes = [`wa-${type}`];
   const styles: string[] = [];

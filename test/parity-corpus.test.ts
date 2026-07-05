@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { process } from '../src/index.js';
+import { process, plainMarkdown } from '../src/index.js';
 
 /**
  * Cross-engine parity corpus. These inputs were verified to produce output that
@@ -159,6 +159,24 @@ describe('parity corpus (locked to Ruby-matching output)', () => {
   for (const { name, input } of CORPUS) {
     it(name, () => {
       expect(process(input, { imageDialog: { defaultWidth: '90vh' } })).toMatchSnapshot();
+    });
+  }
+});
+
+/**
+ * The same CORPUS run through the plain-markdown degradation path. Sharing one
+ * CORPUS is what guarantees both engines consume byte-identical input; these
+ * snapshots were verified byte-for-byte against the Ruby
+ * `Markawesome::PlainMarkdownRenderer.process(input, image_dialog: { default_width: '90vh' })`
+ * output. Vitest keys snapshots by describe+name, so they coexist with the HTML
+ * snapshots above in the same `.snap` file.
+ */
+describe('parity corpus — plain markdown (locked to Ruby-matching output)', () => {
+  for (const { name, input } of CORPUS) {
+    it(name, () => {
+      expect(
+        plainMarkdown.process(input, { imageDialog: { defaultWidth: '90vh' } }),
+      ).toMatchSnapshot();
     });
   }
 });

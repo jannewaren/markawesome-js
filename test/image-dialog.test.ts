@@ -44,3 +44,10 @@ describe('ImageDialogTransformer', () => {
     expect(result).toBe('![A cat](cat.jpg)');
   });
 });
+
+describe('ImageDialogTransformer.renderAsMarkdown', () => {
+  it('leaves plain markdown images untouched', () => {
+    const md = '![Alt](image.png)';
+    expect(imageDialog.renderAsMarkdown(md)).toBe(md);
+  });
+});

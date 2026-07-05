@@ -33,6 +33,20 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/**
+ * Degrade a dialog to an italic trigger label followed by the body. (The Ruby
+ * source's if/else branches are identical — the heading-vs-not distinction is
+ * dead code — so this collapses them.)
+ */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', buttonText = '', dialogContent = ''): string => {
+    const trigger = (buttonText ?? '').trim();
+    const body = (dialogContent ?? '').trim();
+    return `_${trigger}:_\n\n${body}`;
+  };
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function parseParameters(paramsString: string): [boolean, string | undefined] {
   if (!paramsString || paramsString.trim() === '') return [false, undefined];
   const attributes = parseAttributes(paramsString, DIALOG_ATTRIBUTES);

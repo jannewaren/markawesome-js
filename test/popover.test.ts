@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/popover.js';
+import { transform, renderAsMarkdown } from '../src/transformers/popover.js';
 
 describe('PopoverTransformer.transform', () => {
   it('basic block popover (exact, incl. MD5 id matching Ruby)', () => {
@@ -81,5 +81,19 @@ describe('PopoverTransformer.transform', () => {
     const ids = [...result.matchAll(/for='(popover-[^']+)'/g)].map((m) => m[1]);
     expect(ids[0]).not.toBe(ids[1]);
     expect(ids[1]).toMatch(/-2$/);
+  });
+});
+
+describe('PopoverTransformer.renderAsMarkdown', () => {
+  it('renders inline popover as bold trigger followed by parenthetical content', () => {
+    expect(renderAsMarkdown('&&&trigger >>> the content&&&')).toBe('**trigger** (the content)');
+  });
+
+  it('renders block popover as bold trigger plus content paragraph', () => {
+    expect(renderAsMarkdown('&&&\nTrigger\n>>>\nBody text\n&&&')).toBe('**Trigger**\n\nBody text');
+  });
+
+  it('handles alternative :::wa-popover syntax', () => {
+    expect(renderAsMarkdown(':::wa-popover\nTrigger\n>>>\nBody\n:::')).toBe('**Trigger**\n\nBody');
   });
 });

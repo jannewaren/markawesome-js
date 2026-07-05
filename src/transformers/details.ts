@@ -56,6 +56,19 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/**
+ * Degrade to a native HTML `<details>` block. The body is emitted verbatim (not
+ * markdown-converted), matching the Ruby engine.
+ */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', summaryContent = '', detailsContent = ''): string => {
+    const summary = (summaryContent ?? '').trim();
+    const details = (detailsContent ?? '').trim();
+    return `<details>\n<summary>${summary}</summary>\n\n${details}\n</details>`;
+  };
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function extractNameValue(paramsString: string): string | null {
   if (!paramsString || paramsString.trim() === '') return null;
   const tokens = paramsString.trim().split(/\s+/);

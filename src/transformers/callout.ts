@@ -61,6 +61,37 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+// GFM alert type per callout variant, keyed on the RAW variant capture (no
+// VARIANT_ALIASES resolution): both `info` and `brand` degrade to NOTE.
+const GFM_ALERT_MAP: Record<string, string> = {
+  info: 'NOTE',
+  brand: 'NOTE',
+  success: 'TIP',
+  neutral: 'IMPORTANT',
+  warning: 'WARNING',
+  danger: 'CAUTION',
+};
+
+/**
+ * Degrade a callout to a GFM alert blockquote (`> [!NOTE]` …). The body is
+ * quoted line-by-line: an empty line becomes a bare `>`, any other line becomes
+ * `> line`; an empty body degrades to just the `> [!ALERT]` header.
+ */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (variant = '', _extraParams = '', innerContent = ''): string => {
+    const alert = GFM_ALERT_MAP[variant] ?? 'NOTE';
+    const body = (innerContent ?? '').trim();
+    if (body === '') return `> [!${alert}]`;
+    const quoted = body
+      .split('\n')
+      .map((l) => (l === '' ? '>' : `> ${l}`))
+      .join('\n');
+    return `> [!${alert}]\n${quoted}`;
+  };
+
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function iconNameFor(variant: string): string | undefined {
   const icons = getConfiguration()?.calloutIcons ?? DEFAULT_ICONS;
   return icons[variant];

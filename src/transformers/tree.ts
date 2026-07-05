@@ -65,6 +65,37 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/**
+ * Degrade to a clean nested Markdown list: 2-space indent per depth level,
+ * per-node flag/icon tokens stripped, fence removed. Labels are emitted
+ * verbatim (NOT HTML-escaped, unlike the component path), so colon-bearing
+ * labels like `cbc:ID` pass through unchanged.
+ */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', body = ''): string =>
+    renderList(parseLines(body), { pos: 0 }, -1, 0);
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
+function renderList(
+  nodes: TreeNode[],
+  cursor: Cursor,
+  parentIndent: number,
+  depth: number,
+): string {
+  const lines: string[] = [];
+  while (cursor.pos < nodes.length && nodes[cursor.pos]!.indent > parentIndent) {
+    const node = nodes[cursor.pos]!;
+    const current = node.indent;
+    cursor.pos += 1;
+    const [, label] = parseItemFlagsAndLabel(parseIconSlots(node.raw, ICON_SLOTS).remaining);
+    lines.push(`${'  '.repeat(depth)}- ${label}`);
+    const child = renderList(nodes, cursor, current, depth + 1);
+    if (child !== '') lines.push(child);
+  }
+  return lines.join('\n');
+}
+
 function isFenceOpen(paramsString: string): boolean {
   const trimmed = (paramsString ?? '').trim();
   if (trimmed === '') return false;

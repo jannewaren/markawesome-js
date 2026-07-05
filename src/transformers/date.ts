@@ -112,6 +112,29 @@ export function transform(content: string): string {
   return applyPatterns(content, [inlinePattern, alternativePattern]);
 }
 
+/**
+ * Plain-markdown degradation: there is no locale formatting in plain text, so
+ * each timestamp degrades to its raw ISO date string (empty when omitted).
+ */
+export function renderAsMarkdown(content: string): string {
+  const inlinePattern: Pattern = {
+    regex: INLINE_REGEX,
+    handler: (captures) => extractDate(captures[0] ?? ''),
+  };
+  const alternativePattern: Pattern = {
+    regex: ALTERNATIVE_REGEX,
+    handler: (captures) => extractDate(captures[1] ?? ''),
+  };
+  return applyPatterns(content, [inlinePattern, alternativePattern]);
+}
+
+// Return the first date/datetime token (or '' when none is present).
+function extractDate(tokenString: string): string {
+  const trimmed = tokenString.trim();
+  const tokens = trimmed === '' ? [] : trimmed.split(/\s+/);
+  return tokens.find((t) => DATE_TOKEN_REGEX.test(t)) ?? '';
+}
+
 function renderTokens(tokenString: string, modeOverride: Mode | null): string {
   const trimmed = tokenString.trim();
   let tokens = trimmed === '' ? [] : trimmed.split(/\s+/);

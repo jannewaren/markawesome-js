@@ -45,6 +45,23 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/**
+ * Degrade an accordion to sequential `### label` sections joined by blank lines
+ * (leading flag/icon tokens stripped from each heading).
+ */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', itemsBlock = ''): string => {
+    const sections: string[] = [];
+    for (const match of itemsBlock.matchAll(ITEM_REGEX)) {
+      const iconResult = parseIconSlots(match[1]!, ICON_SLOTS);
+      const [, label] = parseItemFlagsAndLabel(iconResult.remaining);
+      sections.push(`### ${label}\n\n${match[2]!.trim()}`);
+    }
+    return sections.join('\n\n');
+  };
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function buildItems(itemsBlock: string): string {
   const items: string[] = [];
   for (const match of itemsBlock.matchAll(ITEM_REGEX)) {

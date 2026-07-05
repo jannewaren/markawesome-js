@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/date.js';
+import { transform, renderAsMarkdown } from '../src/transformers/date.js';
 
 /**
  * Exact-string assertions mirroring the Ruby `spec/date_transformer_spec.rb`.
@@ -147,5 +147,40 @@ describe('DateTransformer.transform', () => {
       const input = '[[[2026-06-26\nstyle:long]]]';
       expect(transform(input)).toBe(input);
     });
+  });
+});
+
+describe('DateTransformer.renderAsMarkdown', () => {
+  // Plain markdown has no locale formatting, so each timestamp degrades to its
+  // raw ISO date string (empty when omitted). Goldens generated from the Ruby
+  // DateTransformer.render_as_markdown.
+  it('degrades an inline styled date to its raw ISO string', () => {
+    expect(renderAsMarkdown('Published [[[2026-06-26 style:long]]].')).toBe('Published 2026-06-26.');
+  });
+
+  it('degrades an inline datetime to its raw ISO string', () => {
+    expect(renderAsMarkdown('Released [[[2026-06-26T14:30:00Z style:medium]]].')).toBe(
+      'Released 2026-06-26T14:30:00Z.',
+    );
+  });
+
+  it('degrades an inline relative timestamp to its raw date', () => {
+    expect(renderAsMarkdown('Updated [[[relative 2026-06-20 format:short]]].')).toBe(
+      'Updated 2026-06-20.',
+    );
+  });
+
+  it('degrades a dateless inline timestamp to an empty string', () => {
+    expect(renderAsMarkdown('[[[style:long]]]')).toBe('');
+  });
+
+  it('degrades the block format-date syntax to its raw date', () => {
+    expect(renderAsMarkdown(':::wa-format-date 2026-06-26 style:full lang:fr\n:::')).toBe(
+      '2026-06-26',
+    );
+  });
+
+  it('degrades the block relative-time syntax to its raw date', () => {
+    expect(renderAsMarkdown(':::wa-relative-time 2026-06-20 format:short\n:::')).toBe('2026-06-20');
   });
 });

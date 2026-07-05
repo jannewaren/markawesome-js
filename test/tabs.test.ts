@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/tabs.js';
+import { transform, renderAsMarkdown } from '../src/transformers/tabs.js';
 
 describe('TabsTransformer.transform', () => {
   it('basic tab group (exact)', () => {
@@ -57,5 +57,21 @@ describe('TabsTransformer.transform', () => {
     expect(transform('++++++\n+++ Why this is disabled\nContent\n+++\n++++++')).toContain(
       '<wa-tab panel="tab-1">Why this is disabled</wa-tab>',
     );
+  });
+});
+
+describe('TabsTransformer.renderAsMarkdown', () => {
+  it('flattens tabs into sequential h3 sections', () => {
+    const md = '++++++\n+++ Tab A\nContent A\n+++\n+++ Tab B\nContent B\n+++\n++++++';
+    expect(renderAsMarkdown(md)).toBe('### Tab A\n\nContent A\n\n### Tab B\n\nContent B');
+  });
+
+  it('handles alternative :::wa-tab-group syntax', () => {
+    const md = ':::wa-tab-group\n+++ One\nFirst\n+++\n+++ Two\nSecond\n+++\n:::';
+    const result = renderAsMarkdown(md);
+    expect(result).toContain('### One');
+    expect(result).toContain('### Two');
+    expect(result).toContain('First');
+    expect(result).toContain('Second');
   });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/dialog.js';
+import { transform, renderAsMarkdown } from '../src/transformers/dialog.js';
 
 describe('DialogTransformer.transform', () => {
   it('basic dialog (exact, incl. MD5 id matching Ruby)', () => {
@@ -43,5 +43,18 @@ describe('DialogTransformer.transform', () => {
     const result = transform('???\nOpen Dialog\n>>>\nContent here.\n???');
     expect(result).not.toContain('without-header');
     expect(result).toContain("label='");
+  });
+});
+
+describe('DialogTransformer.renderAsMarkdown', () => {
+  it('renders dialog as an italic trigger label followed by body', () => {
+    const md = '???\nOpen settings\n>>>\nSome dialog body.\n???';
+    expect(renderAsMarkdown(md)).toBe('_Open settings:_\n\nSome dialog body.');
+  });
+
+  it('handles alternative :::wa-dialog syntax', () => {
+    const result = renderAsMarkdown(':::wa-dialog\nTrigger\n>>>\nBody\n:::');
+    expect(result).toContain('_Trigger:_');
+    expect(result).toContain('Body');
   });
 });

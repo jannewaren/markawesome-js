@@ -141,3 +141,185 @@ exports[`parity corpus (locked to Ruby-matching output) > video-block 1`] = `"<w
 exports[`parity corpus (locked to Ruby-matching output) > video-playlist-alt 1`] = `"<wa-video-playlist controls="none"><wa-video src="1.mp4" title="One"></wa-video><wa-video src="2.mp4" poster="2.jpg" title="Two"></wa-video></wa-video-playlist>"`;
 
 exports[`parity corpus (locked to Ruby-matching output) > video-playlist-block 1`] = `"<wa-video-playlist controls="standard"><wa-video src="a.mp4" poster="a.jpg" title="Part 1"></wa-video><wa-video src="b.mp4" title="Part 2"></wa-video></wa-video-playlist>"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > badge 1`] = `"****New** stuff**"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > button-link 1`] = `"[**Get** it](https://x.com/a.zip)"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > callout 1`] = `
+"> [!NOTE]
+> Hello **world** and \`code\`"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > callout-attrs 1`] = `
+"> [!WARNING]
+> Heads up"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > callout-icon-3.10 1`] = `
+"> [!CAUTION]
+> Watch out"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > callout-in-accordion 1`] = `
+"### Section
+
+> [!TIP]
+> Nested **callout** text."
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > callout-in-card 1`] = `
+"> [!WARNING]
+> Card-nested callout."
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > callout-in-details 1`] = `
+"<details>
+<summary>Summary</summary>
+
+> [!NOTE]
+> Details callout.
+</details>"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > callout-in-random-content 1`] = `
+"> [!TIP]
+> Nested **callout** text."
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > callout-in-tab-panel 1`] = `
+"### Tab 1
+
+> [!NOTE]
+> Tab callout body."
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > card-horizontal-body-wrap 1`] = `
+"![Feature](photo.jpg)
+
+# Horizontal card
+Media and content sit **side-by-side**."
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > comparison 1`] = `
+"**Before:** ![Before](b.jpg)
+
+**After:** ![After](a.jpg)"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > date-block 1`] = `"2026-06-26"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > date-inline-datetime 1`] = `"Released 2026-06-26T14:30:00Z."`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > date-inline-granular 1`] = `"2026-06-26"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > date-inline-style 1`] = `"Published 2026-06-26."`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > date-relative 1`] = `"Updated 2026-06-20."`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > date-relative-sync 1`] = `"Live 2026-06-20"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > icon-3.10-canvas 1`] = `""`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > icon-3.10-full-order 1`] = `""`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > layout-flank 1`] = `"Side"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > popover-aligned-skidding-block 1`] = `
+"**Trigger**
+
+Body"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > popover-aligned-skidding-inline 1`] = `"Click **here** (Aligned popover) now."`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > random-content 1`] = `
+"A **testimonial** or tip
+
+Another option"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > random-content-alt 1`] = `
+"First option
+
+Second option"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > random-content-autoplay 1`] = `
+"Tip one
+
+Tip two
+
+Tip three"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > random-content-single 1`] = `"Just the one option"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tabs-disabled 1`] = `
+"### Tab 1
+
+Content 1
+
+### Coming soon
+
+Not yet available."
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tag-inline 1`] = `"Status: **Done** ok"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tooltip 1`] = `"**API term** (Application Programming Interface)"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tooltip-aligned-skidding-block 1`] = `"**REST** (Representational State Transfer)"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tooltip-aligned-skidding-inline 1`] = `"**API** (Application Programming Interface)"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tree-alt-per-node-expanded 1`] = `
+"- src
+  - index.ts
+- README.md"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tree-invoice 1`] = `
+"- Invoice
+  - cbc:CustomizationID
+  - cbc:ID
+  - cbc:IssueDate
+  - cac:AccountingSupplierParty
+    - cac:Party
+      - cac:PostalAddress
+      - cac:PartyLegalEntity
+  - cac:AccountingCustomerParty
+    - cac:Party
+  - cac:InvoiceLine
+    - cbc:ID
+    - cbc:InvoicedQuantity
+    - cac:Item
+      - cbc:Name
+      - cac:Price"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tree-zip 1`] = `
+"- my-plugin
+  - dist
+    - index.js
+    - index.d.ts
+  - src
+    - index.ts
+  - README.md
+  - package.json
+- LICENSE"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > video-alt 1`] = `"[Clip](v.mp4)"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > video-block 1`] = `"[My Clip](test_video.mp4)"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > video-playlist-alt 1`] = `
+"- [One](1.mp4)
+- [Two](2.mp4)"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > video-playlist-block 1`] = `
+"- [Part 1](a.mp4)
+- [Part 2](b.mp4)"
+`;

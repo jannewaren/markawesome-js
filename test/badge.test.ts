@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/badge.js';
+import { transform, renderAsMarkdown } from '../src/transformers/badge.js';
 
 describe('BadgeTransformer.transform', () => {
   describe('basic badge syntax', () => {
@@ -206,5 +206,19 @@ Second
         '<wa-badge variant="brand" appearance="filled" pill>Content</wa-badge>',
       );
     });
+  });
+});
+
+describe('BadgeTransformer.renderAsMarkdown', () => {
+  it('renders a plain badge as bold', () => {
+    expect(renderAsMarkdown('!!!\nNew\n!!!')).toBe('**New**');
+  });
+
+  it('renders a badge with a variant as bold (variant dropped)', () => {
+    expect(renderAsMarkdown('!!!brand\nBeta\n!!!')).toBe('**Beta**');
+  });
+
+  it('handles alternative :::wa-badge syntax', () => {
+    expect(renderAsMarkdown(':::wa-badge warning\nCaution\n:::')).toBe('**Caution**');
   });
 });

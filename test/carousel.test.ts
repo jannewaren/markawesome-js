@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/carousel.js';
+import { transform, renderAsMarkdown } from '../src/transformers/carousel.js';
 
 describe('CarouselTransformer.transform', () => {
   it('basic carousel with flags (exact)', () => {
@@ -42,5 +42,15 @@ describe('CarouselTransformer.transform', () => {
     const result = transform('~~~~~~\n~~~\n**Bold text** and *italic text*\n~~~\n~~~~~~');
     expect(result).toContain('<strong>Bold text</strong>');
     expect(result).toContain('<em>italic text</em>');
+  });
+});
+
+describe('CarouselTransformer.renderAsMarkdown', () => {
+  it('flattens slides into sequential blocks', () => {
+    const md = '~~~~~~\n~~~\n![One](one.png)\n~~~\n~~~\n![Two](two.png)\n~~~\n~~~~~~';
+    const result = renderAsMarkdown(md);
+    expect(result).toContain('![One](one.png)');
+    expect(result).toContain('![Two](two.png)');
+    expect(result).not.toContain('~~~');
   });
 });

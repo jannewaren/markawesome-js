@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/details.js';
+import { transform, renderAsMarkdown } from '../src/transformers/details.js';
 
 describe('DetailsTransformer.transform', () => {
   it('basic summary/details', () => {
@@ -63,5 +63,20 @@ describe('DetailsTransformer.transform', () => {
   it('does not transform incomplete syntax', () => {
     const md = '^^^\nSummary only\n^^^';
     expect(transform(md)).toBe(md);
+  });
+});
+
+describe('DetailsTransformer.renderAsMarkdown', () => {
+  it('renders as a native HTML <details> block', () => {
+    const md = '^^^\nSummary text\n>>>\nDetails body\n^^^';
+    expect(renderAsMarkdown(md)).toBe(
+      '<details>\n<summary>Summary text</summary>\n\nDetails body\n</details>',
+    );
+  });
+
+  it('handles alternative :::wa-details syntax', () => {
+    const result = renderAsMarkdown(':::wa-details\nSummary\n>>>\nBody\n:::');
+    expect(result).toContain('<summary>Summary</summary>');
+    expect(result).toContain('Body');
   });
 });

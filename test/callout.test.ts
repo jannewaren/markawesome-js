@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { transform } from '../src/transformers/callout.js';
+import { transform, renderAsMarkdown } from '../src/transformers/callout.js';
 import { resetConfiguration } from '../src/config.js';
 
 describe('CalloutTransformer.transform', () => {
@@ -103,5 +103,52 @@ describe('CalloutTransformer.transform', () => {
     const result = transform(':::warning\nFirst paragraph\n\nSecond one.\n:::');
     expect(result).toContain('<p>First paragraph</p>');
     expect(result).toContain('<p>Second one.</p>');
+  });
+});
+
+describe('CalloutTransformer.renderAsMarkdown', () => {
+  it('renders info as a GFM NOTE alert', () => {
+    expect(renderAsMarkdown(':::info\nThis is info\n:::')).toBe('> [!NOTE]\n> This is info');
+  });
+
+  it('renders brand as a GFM NOTE alert', () => {
+    expect(renderAsMarkdown(':::brand\nBrand notice\n:::')).toBe('> [!NOTE]\n> Brand notice');
+  });
+
+  it('renders success as a GFM TIP alert', () => {
+    expect(renderAsMarkdown(':::success\nAll good\n:::')).toBe('> [!TIP]\n> All good');
+  });
+
+  it('renders warning as a GFM WARNING alert', () => {
+    expect(renderAsMarkdown(':::warning\nBe careful\n:::')).toBe('> [!WARNING]\n> Be careful');
+  });
+
+  it('renders danger as a GFM CAUTION alert', () => {
+    expect(renderAsMarkdown(':::danger\nBad stuff\n:::')).toBe('> [!CAUTION]\n> Bad stuff');
+  });
+
+  it('renders neutral as a GFM IMPORTANT alert', () => {
+    expect(renderAsMarkdown(':::neutral\nConfig required\n:::')).toBe(
+      '> [!IMPORTANT]\n> Config required',
+    );
+  });
+
+  it('quotes multi-line content', () => {
+    expect(renderAsMarkdown(':::info\nLine 1\nLine 2\n:::')).toBe('> [!NOTE]\n> Line 1\n> Line 2');
+  });
+
+  it('preserves blank lines between paragraphs as bare quote markers', () => {
+    expect(renderAsMarkdown(':::info\nPara one\n\nPara two\n:::')).toBe(
+      '> [!NOTE]\n> Para one\n>\n> Para two',
+    );
+  });
+
+  it('ignores unknown variants', () => {
+    const md = ':::invalid\nnope\n:::';
+    expect(renderAsMarkdown(md)).toBe(md);
+  });
+
+  it('handles alternative :::wa-callout syntax', () => {
+    expect(renderAsMarkdown(':::wa-callout warning\nBeware\n:::')).toBe('> [!WARNING]\n> Beware');
   });
 });

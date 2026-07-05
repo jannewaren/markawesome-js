@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/tooltip.js';
+import { transform, renderAsMarkdown } from '../src/transformers/tooltip.js';
 
 describe('TooltipTransformer.transform', () => {
   it('inline tooltip (exact, incl. MD5 id matching Ruby)', () => {
@@ -59,5 +59,31 @@ describe('TooltipTransformer.transform', () => {
   it('escapes HTML in anchor text', () => {
     const result = transform('(((<b>x</b> >>> tip)))');
     expect(result).toContain('&lt;b&gt;x&lt;/b&gt;');
+  });
+});
+
+describe('TooltipTransformer.renderAsMarkdown', () => {
+  it('renders an inline tooltip as a bold anchor followed by parenthetical tip', () => {
+    expect(renderAsMarkdown('(((CSS >>> Cascading Style Sheets)))')).toBe(
+      '**CSS** (Cascading Style Sheets)',
+    );
+  });
+
+  it('strips leading params from the inline anchor', () => {
+    expect(
+      renderAsMarkdown('(((bottom distance:10 API >>> Application Programming Interface)))'),
+    ).toBe('**API** (Application Programming Interface)');
+  });
+
+  it('renders an inline tooltip mid-sentence', () => {
+    expect(renderAsMarkdown('Styled with (((CSS >>> Cascading Style Sheets))) here.')).toBe(
+      'Styled with **CSS** (Cascading Style Sheets) here.',
+    );
+  });
+
+  it('renders the alternative block syntax', () => {
+    expect(renderAsMarkdown(':::wa-tooltip\nCSS\n>>>\nCascading Style Sheets\n:::')).toBe(
+      '**CSS** (Cascading Style Sheets)',
+    );
   });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/random-content.js';
+import { transform, renderAsMarkdown } from '../src/transformers/random-content.js';
 
 describe('RandomContentTransformer.transform', () => {
   it('combined example (exact)', () => {
@@ -69,5 +69,27 @@ describe('RandomContentTransformer.transform', () => {
   it('leaves a stray >>> outside a fence inert', () => {
     const input = 'Some text\n>>>\nMore text';
     expect(transform(input)).toBe(input);
+  });
+});
+
+describe('RandomContentTransformer.renderAsMarkdown', () => {
+  it('flattens options into blank-line-separated blocks and drops the fences', () => {
+    const md = '......mode:random items:2\nFirst **option**\n>>>\nSecond option\n......';
+    const result = renderAsMarkdown(md);
+    expect(result).toContain('First **option**');
+    expect(result).toContain('Second option');
+    expect(result).toContain('First **option**\n\nSecond option');
+    expect(result).not.toContain('......');
+    expect(result).not.toContain(':::');
+    expect(result).not.toContain('>>>');
+  });
+
+  it('degrades the alternative syntax identically', () => {
+    const md = ':::wa-random-content\nFirst option\n>>>\nSecond option\n:::';
+    expect(renderAsMarkdown(md)).toBe('First option\n\nSecond option');
+  });
+
+  it('drops empty options', () => {
+    expect(renderAsMarkdown('......\nA\n>>>\n>>>\nB\n......')).toBe('A\n\nB');
   });
 });

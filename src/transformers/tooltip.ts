@@ -71,6 +71,33 @@ export function transform(content: string): string {
   return applyPatterns(content, [inlinePattern, alternativePattern]);
 }
 
+/**
+ * Degrade a tooltip to `**anchor** (tip)` — both the inline and block forms map
+ * to the same shape.
+ */
+export function renderAsMarkdown(content: string): string {
+  const inlinePattern: Pattern = {
+    regex: INLINE_REGEX,
+    handler: (captures) => {
+      const combined = captures[0] ?? '';
+      const tipText = (captures[1] ?? '').trim();
+      const [, anchorText] = parseInlineAnchorAndParams(combined);
+      return `**${anchorText}** (${tipText})`;
+    },
+  };
+
+  const alternativePattern: Pattern = {
+    regex: ALTERNATIVE_REGEX,
+    handler: (captures) => {
+      const anchorText = (captures[1] ?? '').trim();
+      const tipText = (captures[2] ?? '').trim();
+      return `**${anchorText}** (${tipText})`;
+    },
+  };
+
+  return applyPatterns(content, [inlinePattern, alternativePattern]);
+}
+
 function parseParameters(paramsString: string): TooltipOptions {
   if (!paramsString || paramsString.trim() === '') {
     return { placement: 'top', distance: undefined, skidding: undefined };

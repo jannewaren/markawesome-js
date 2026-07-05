@@ -48,6 +48,19 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/** Degrade tabs to sequential `### label` sections joined by blank lines. */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', tabsBlock = ''): string => {
+    const sections: string[] = [];
+    for (const match of tabsBlock.matchAll(TAB_REGEX)) {
+      const [label] = parseTabHeader(match[1]!);
+      sections.push(`### ${label}\n\n${match[2]!.trim()}`);
+    }
+    return sections.join('\n\n');
+  };
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function extractTabsAndPanels(tabsBlock: string): { tabs: string[]; tabPanels: string[] } {
   const tabs: string[] = [];
   const tabPanels: string[] = [];

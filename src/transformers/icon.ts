@@ -36,6 +36,27 @@ export function transform(content: string): string {
   return restoreCodeBlocks(result, codeBlocks);
 }
 
+/**
+ * Degrade icons for plain markdown. Primary-syntax `$$$name` icons are dropped
+ * entirely, leaving the surrounding whitespace intact (so `$$$a and $$$b`
+ * collapses to a double space). A labeled `:::wa-icon` block degrades to its
+ * label text (whitespace-collapsed, NOT HTML-escaped — it re-enters a markdown
+ * stream); an unlabeled block degrades to ''. Runs its own code-block protection
+ * independent of the pipeline protector.
+ */
+export function renderAsMarkdown(content: string): string {
+  const [protectedContent, codeBlocks] = protectCodeBlocks(content);
+
+  // Drop primary-syntax icons entirely (surrounding whitespace preserved).
+  let result = protectedContent.replace(PRIMARY_REGEX, '');
+
+  result = result.replace(ALTERNATIVE_REGEX, (_m, _firstLine: string, rawBody: string) =>
+    (rawBody ?? '').trim().replace(/\s+/g, ' '),
+  );
+
+  return restoreCodeBlocks(result, codeBlocks);
+}
+
 function buildIconHtml(
   iconName: string,
   attributes: ParsedAttributes = {},

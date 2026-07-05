@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/icon.js';
+import { transform, renderAsMarkdown } from '../src/transformers/icon.js';
 
 describe('IconTransformer.transform', () => {
   describe('primary syntax ($$$)', () => {
@@ -149,5 +149,30 @@ describe('IconTransformer.transform', () => {
         'This is regular content without any icons.',
       );
     });
+  });
+});
+
+describe('IconTransformer.renderAsMarkdown', () => {
+  it('drops primary-syntax icons entirely (leaving surrounding whitespace)', () => {
+    expect(renderAsMarkdown('Check $$$gear and $$$home-line.')).toBe('Check  and .');
+  });
+
+  it('preserves icon-like syntax inside fenced code blocks', () => {
+    const md = '```\n$$$keep-me\n```';
+    expect(renderAsMarkdown(md)).toBe(md);
+  });
+
+  it('drops the :::wa-icon alternative syntax', () => {
+    expect(renderAsMarkdown(':::wa-icon gear\n:::').trim()).toBe('');
+  });
+
+  it('degrades a labeled block to its label text', () => {
+    expect(renderAsMarkdown(':::wa-icon heart solid\nAdd to favorites\n:::').trim()).toBe(
+      'Add to favorites',
+    );
+  });
+
+  it('still drops an unlabeled enriched block', () => {
+    expect(renderAsMarkdown(':::wa-icon star spin\n:::').trim()).toBe('');
   });
 });

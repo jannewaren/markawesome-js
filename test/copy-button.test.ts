@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/copy-button.js';
+import { transform, renderAsMarkdown } from '../src/transformers/copy-button.js';
 
 describe('CopyButtonTransformer.transform', () => {
   it('simple copy button', () => {
@@ -48,5 +48,19 @@ describe('CopyButtonTransformer.transform', () => {
     expect(transform('<<<\nFirst copy\n<<<\n\n<<<\nSecond copy\n<<<')).toBe(
       '<wa-copy-button value="First copy"></wa-copy-button>\n\n<wa-copy-button value="Second copy"></wa-copy-button>',
     );
+  });
+});
+
+describe('CopyButtonTransformer.renderAsMarkdown', () => {
+  it('strips the wrapper and keeps the content intact', () => {
+    expect(renderAsMarkdown('<<<\nvalue to copy\n<<<')).toBe('value to copy');
+  });
+
+  it('handles alternative :::wa-copy-button syntax', () => {
+    expect(renderAsMarkdown(':::wa-copy-button\nsome value\n:::')).toBe('some value');
+  });
+
+  it('degrades to bare text even with a tooltip mode token', () => {
+    expect(renderAsMarkdown('<<<tooltip:none\nvalue to copy\n<<<')).toBe('value to copy');
   });
 });

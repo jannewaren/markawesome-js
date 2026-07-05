@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/button.js';
+import { transform, renderAsMarkdown } from '../src/transformers/button.js';
 
 describe('ButtonTransformer.transform', () => {
   describe('link buttons', () => {
@@ -142,5 +142,21 @@ describe('ButtonTransformer.transform', () => {
         'This has %%% in the middle of text',
       );
     });
+  });
+});
+
+describe('ButtonTransformer.renderAsMarkdown', () => {
+  it('renders a link-button as a plain link', () => {
+    expect(renderAsMarkdown('%%%brand\n[Get started](https://example.com)\n%%%')).toBe(
+      '[Get started](https://example.com)',
+    );
+  });
+
+  it('renders a plain-text button as bold', () => {
+    expect(renderAsMarkdown('%%%brand\nClick Me\n%%%')).toBe('**Click Me**');
+  });
+
+  it('handles alternative :::wa-button syntax', () => {
+    expect(renderAsMarkdown(':::wa-button brand\n[Go](/go)\n:::')).toBe('[Go](/go)');
   });
 });

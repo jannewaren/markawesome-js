@@ -32,6 +32,15 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/** Degrade a badge to bold `**text**` (variant dropped); an empty badge → ''. */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', badgeContent = ''): string => {
+    const text = (badgeContent ?? '').trim();
+    return text === '' ? '' : `**${text}**`;
+  };
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function buildBadgeHtml(content: string, attributes: ParsedAttributes): string {
   let badgeHtml = renderMarkdown(content).trim();
 

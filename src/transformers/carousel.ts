@@ -34,6 +34,15 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/** Degrade a carousel to its slide bodies (non-empty) joined by blank lines. */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_params = '', slidesBlock = ''): string =>
+    extractSlides(slidesBlock)
+      .filter((x) => x !== '')
+      .join('\n\n');
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function parseParams(params: string): ParsedParams {
   const result: ParsedParams = { attributes: {}, cssVars: {} };
   if (!params || params.trim() === '') return result;

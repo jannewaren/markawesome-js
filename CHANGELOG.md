@@ -6,6 +6,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **`plainMarkdown` — a "Markawesome → plain Markdown" renderer** that degrades every Web Awesome component to its closest GFM equivalent, for serving per-page `.md` endpoints and generating `llms.txt` content that LLM consumers can read without understanding `<wa-*>` tags. Exposed as a namespace: `plainMarkdown.process(content, options?)`, plus the override registry `registerOverride(component, fn)` / `resetOverrides()` / `overrides()`. New `PlainMarkdownOptions` / `PlainMarkdownOverride` types are exported.
+  - **`renderAsMarkdown(content)` on all 21 transformers**, added alongside `transform` and reusing each file's existing helpers — no `transform` was refactored. The barrel picks them up for free (`transformers.callout.renderAsMarkdown(…)`). Degradation shapes: callout → GFM alert blockquote (`> [!NOTE]` …); button → link or `**bold**`; badge/tag → `**bold**`; card → media / `### header` / body / footer link; dialog → `_trigger:_` + body; details → native `<details>`; comparison → `**Before:**`/`**After:**` images; copy-button/layout → inner content; carousel/random-content → options joined by blank lines; icon → dropped or its label; tabs/accordion → `### label` sections; tree → 2-space-indented nested list; popover/tooltip → `**anchor** (tip)`; date → the raw ISO date string; video → `[title](src)` links; image-dialog → a no-op.
+  - **New `src/plain-markdown-renderer.ts`**: runs the 21 steps in a fixed order, with a per-step override check first and the `imageDialog` gate only on the default path, then strips Kramdown attribute syntax (`{:…}`) before restoring code blocks.
+
 ## [0.3.1] - 2026-07-04
 
 ### Fixed

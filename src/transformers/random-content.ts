@@ -44,6 +44,19 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/**
+ * Degrade to the option bodies joined by blank lines (fences, params, and `>>>`
+ * separators dropped, empty options removed) — used for `.md` endpoints /
+ * llms.txt.
+ */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_params = '', itemsBlock = ''): string =>
+    extractItems(itemsBlock)
+      .filter((x) => x !== '')
+      .join('\n\n');
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function extractItems(itemsBlock: string): string[] {
   return itemsBlock.split(ITEM_SEPARATOR).map((item) => item.trim());
 }

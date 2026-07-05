@@ -32,6 +32,16 @@ export function transform(content: string, config: ImageDialogConfig = {}): stri
   return result;
 }
 
+/**
+ * Plain-markdown degradation is a no-op: image-dialog wrapping is dropped, and
+ * the raw markdown image syntax is already exactly what we want. It stays in the
+ * pipeline (behind the `imageDialog` gate) so ordering and host overrides match
+ * the Ruby engine.
+ */
+export function renderAsMarkdown(content: string, _config: ImageDialogConfig = {}): string {
+  return content;
+}
+
 function protect(content: string, regex: RegExp, kind: string): [string, string[]] {
   const blocks: string[] = [];
   const protectedContent = content.replace(regex, (match) => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/tree.js';
+import { transform, renderAsMarkdown } from '../src/transformers/tree.js';
 
 describe('TreeTransformer.transform', () => {
   it('basic nested list with icons and fence open (exact)', () => {
@@ -118,5 +118,26 @@ describe('TreeTransformer.transform', () => {
 
   it('accepts the open fence token on the alternative syntax', () => {
     expect(transform(':::wa-tree open\n- a\n  - b\n:::')).toContain('<wa-tree-item expanded>a');
+  });
+});
+
+describe('TreeTransformer.renderAsMarkdown', () => {
+  // Fresh coverage (the Ruby engine has no tree plain-markdown spec). Degrades to
+  // a clean nested Markdown list: 2-space indent per depth, flag/icon tokens
+  // stripped, labels NOT escaped. Goldens generated from the Ruby
+  // TreeTransformer.render_as_markdown.
+  it('degrades to a 2-space-indented nested list with tokens stripped', () => {
+    const md = '||||||\n- icon:folder src\n  - index.ts\n- README.md\n||||||';
+    expect(renderAsMarkdown(md)).toBe('- src\n  - index.ts\n- README.md');
+  });
+
+  it('passes colon-bearing labels through verbatim (not escaped)', () => {
+    const md = '||||||open\n- Invoice\n  - cbc:ID\n  - cbc:IssueDate\n||||||';
+    expect(renderAsMarkdown(md)).toBe('- Invoice\n  - cbc:ID\n  - cbc:IssueDate');
+  });
+
+  it('handles the alternative :::wa-tree syntax with a per-node expanded flag', () => {
+    const md = ':::wa-tree\n- expanded icon:folder src\n  - icon:file index.ts\n- README.md\n:::';
+    expect(renderAsMarkdown(md)).toBe('- src\n  - index.ts\n- README.md');
   });
 });

@@ -63,6 +63,40 @@ export function transform(content: string): string {
   return applyPatterns(content, patterns);
 }
 
+/**
+ * Degrade video markup to plain markdown links. A single video becomes
+ * `[title](src)` (falling back to the src as the label when there is no title);
+ * a link-less block is left untouched. A playlist becomes a `- [title](src)`
+ * bullet per item, joined by a single newline.
+ */
+export function renderAsMarkdown(content: string): string {
+  const patterns: Pattern[] = [
+    { regex: PLAYLIST_PRIMARY, handler: (c) => renderPlaylistMarkdown(c[1] ?? '') },
+    { regex: PLAYLIST_ALT, handler: (c) => renderPlaylistMarkdown(c[1] ?? '') },
+    { regex: SINGLE_PRIMARY, handler: (c, full) => renderSingleMarkdown(c[1] ?? '') ?? full },
+    { regex: SINGLE_ALT, handler: (c, full) => renderSingleMarkdown(c[1] ?? '') ?? full },
+  ];
+  return applyPatterns(content, patterns);
+}
+
+function renderSingleMarkdown(body: string): string | null {
+  const [title, src] = extractLinkAndImage(body);
+  if (!src) return null;
+  const label = !title || title === '' ? src : title;
+  return `[${label}](${src})`;
+}
+
+function renderPlaylistMarkdown(body: string): string {
+  const items: string[] = [];
+  for (const itemBody of extractItems(body)) {
+    const [title, src] = extractLinkAndImage(itemBody);
+    if (!src) continue;
+    const label = !title || title === '' ? src : title;
+    items.push(`- [${label}](${src})`);
+  }
+  return items.join('\n');
+}
+
 function buildSingle(params: string, body: string): string | null {
   return buildVideo(params, body, false);
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/layout.js';
+import { transform, renderAsMarkdown } from '../src/transformers/layout.js';
 
 describe('LayoutTransformer.transform', () => {
   it('grid with gap and min (exact)', () => {
@@ -47,5 +47,23 @@ describe('LayoutTransformer.transform', () => {
   });
   it('alternative wa- syntax', () => {
     expect(transform('::::wa-grid gap:l\nx\n::::')).toContain('<div class="wa-grid wa-gap-l">');
+  });
+});
+
+describe('LayoutTransformer.renderAsMarkdown', () => {
+  it('drops the grid wrapper and keeps inner content', () => {
+    expect(renderAsMarkdown('::::grid\nA\n\nB\n::::')).toBe('A\n\nB');
+  });
+
+  it('drops the stack wrapper', () => {
+    expect(renderAsMarkdown('::::stack\nItem\n::::')).toBe('Item');
+  });
+
+  it('drops the frame wrapper with params', () => {
+    expect(renderAsMarkdown('::::frame landscape\n![x](x.png)\n::::')).toBe('![x](x.png)');
+  });
+
+  it('handles the alternative ::::wa-grid syntax', () => {
+    expect(renderAsMarkdown('::::wa-grid\nA\n::::')).toBe('A');
   });
 });

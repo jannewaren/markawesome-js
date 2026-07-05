@@ -67,6 +67,36 @@ export function transform(content: string): string {
   return applyPatterns(content, patterns);
 }
 
+/**
+ * Degrade a tag to bold `**text**`. The inline form strips attribute tokens and
+ * `icon:*` first (falling back to the full content if every token was an
+ * attribute); an empty tag → ''.
+ */
+export function renderAsMarkdown(content: string): string {
+  const blockProc = (_params = '', tagContent = ''): string => {
+    const text = (tagContent ?? '').trim();
+    return text === '' ? '' : `**${text}**`;
+  };
+
+  const inlinePattern: Pattern = {
+    regex: INLINE_REGEX,
+    handler: (captures) => {
+      const fullContent = (captures[0] ?? '').trim();
+      const contentTokens = fullContent
+        .split(/\s+/)
+        .filter((token) => !(isAttributeToken(token) || token.startsWith('icon:')));
+      const rendered = contentTokens.length > 0 ? contentTokens.join(' ') : fullContent;
+      return rendered === '' ? '' : `**${rendered}**`;
+    },
+  };
+
+  const patterns: Pattern[] = [
+    inlinePattern,
+    ...dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, blockProc),
+  ];
+  return applyPatterns(content, patterns);
+}
+
 function buildTagHtml(content: string, params: string): string {
   const iconResult = parseIconSlots(params, ICON_SLOTS);
   const attributes = parseAttributes(iconResult.remaining, COMPONENT_ATTRIBUTES);

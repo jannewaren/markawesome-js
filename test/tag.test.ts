@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/tag.js';
+import { transform, renderAsMarkdown } from '../src/transformers/tag.js';
 
 describe('TagTransformer.transform', () => {
   describe('block syntax', () => {
@@ -79,5 +79,19 @@ describe('TagTransformer.transform', () => {
         'Contact us @@@example.com for help',
       );
     });
+  });
+});
+
+describe('TagTransformer.renderAsMarkdown', () => {
+  it('renders a block tag as bold', () => {
+    expect(renderAsMarkdown('@@@\nLabel\n@@@')).toBe('**Label**');
+  });
+
+  it('drops attribute tokens when rendering an inline tag', () => {
+    expect(renderAsMarkdown('Check @@@ brand Beta @@@ out')).toBe('Check **Beta** out');
+  });
+
+  it('handles alternative :::wa-tag syntax', () => {
+    expect(renderAsMarkdown(':::wa-tag\nLabel\n:::')).toBe('**Label**');
   });
 });

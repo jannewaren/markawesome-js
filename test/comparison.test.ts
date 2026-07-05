@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/comparison.js';
+import { transform, renderAsMarkdown } from '../src/transformers/comparison.js';
 
 describe('ComparisonTransformer.transform', () => {
   it('basic comparison with two images', () => {
@@ -54,5 +54,24 @@ describe('ComparisonTransformer.transform', () => {
     );
     expect(result.match(/<wa-comparison>/g)?.length).toBe(2);
     expect(result).toContain('Some text in between.');
+  });
+});
+
+describe('ComparisonTransformer.renderAsMarkdown', () => {
+  it('renders before/after labels with plain images', () => {
+    const md = '|||\n![Old](old.png)\n![New](new.png)\n|||';
+    expect(renderAsMarkdown(md)).toBe('**Before:** ![Old](old.png)\n\n**After:** ![New](new.png)');
+  });
+
+  it('handles alternative :::wa-comparison syntax', () => {
+    const md = ':::wa-comparison\n![A](a.png)\n![B](b.png)\n:::';
+    const result = renderAsMarkdown(md);
+    expect(result).toContain('**Before:** ![A](a.png)');
+    expect(result).toContain('**After:** ![B](b.png)');
+  });
+
+  it('leaves original content untouched when not exactly two images', () => {
+    const md = '|||\n![Only](only.png)\n|||';
+    expect(renderAsMarkdown(md)).toBe(md);
   });
 });

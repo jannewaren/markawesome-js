@@ -52,6 +52,12 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/** Degrade a copy-button to its bare (trimmed) content, dropping the wrapper. */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', copyContent = ''): string => (copyContent ?? '').trim();
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
 function buildCopyButtonHtml(content: string, attributes: CopyAttributes): string {
   // Escape only quotes for the value attribute (matches Ruby: not & < >).
   const escapedContent = content.replace(/"/g, '&quot;').replace(/'/g, '&#39;');

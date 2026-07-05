@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/video.js';
+import { transform, renderAsMarkdown } from '../src/transformers/video.js';
 
 /**
  * Exact-string assertions copied verbatim from the markawesome Ruby engine's
@@ -104,5 +104,39 @@ describe('VideoTransformer.transform playlist', () => {
         '<wa-video src="2.mp4" poster="2.jpg" title="Two"></wa-video>' +
         '</wa-video-playlist>',
     );
+  });
+});
+
+describe('VideoTransformer.renderAsMarkdown', () => {
+  // Fresh coverage (the Ruby engine has no video plain-markdown spec). A single
+  // video degrades to a plain link; a playlist to `- ` bullet links joined by a
+  // single newline. Goldens generated from the Ruby VideoTransformer.render_as_markdown.
+  it('degrades a single video to a plain link (poster dropped)', () => {
+    const md = ';;;controls:full autoplay muted\n[My Clip](test_video.mp4)\n![Poster](p.jpg)\n;;;';
+    expect(renderAsMarkdown(md)).toBe('[My Clip](test_video.mp4)');
+  });
+
+  it('degrades a bare single video to a plain link', () => {
+    expect(renderAsMarkdown(';;;\n[Clip](v.mp4)\n;;;')).toBe('[Clip](v.mp4)');
+  });
+
+  it('leaves a link-less block untouched', () => {
+    const md = ';;;controls:full\n![Just a poster](p.jpg)\n;;;';
+    expect(renderAsMarkdown(md)).toBe(md);
+  });
+
+  it('degrades the :::wa-video alternative syntax', () => {
+    expect(renderAsMarkdown(':::wa-video preload:none loop\n[Clip](v.mp4)\n:::')).toBe('[Clip](v.mp4)');
+  });
+
+  it('degrades a playlist to a bullet list joined by single newlines', () => {
+    const md =
+      ';;;;;;controls:standard\n;;;\n[Part 1](a.mp4)\n![Poster A](a.jpg)\n;;;\n;;;\n[Part 2](b.mp4)\n;;;\n;;;;;;';
+    expect(renderAsMarkdown(md)).toBe('- [Part 1](a.mp4)\n- [Part 2](b.mp4)');
+  });
+
+  it('degrades the :::wa-video-playlist alternative syntax', () => {
+    const md = ':::wa-video-playlist controls:none\n;;;\n[One](1.mp4)\n;;;\n;;;\n[Two](2.mp4)\n;;;\n:::';
+    expect(renderAsMarkdown(md)).toBe('- [One](1.mp4)\n- [Two](2.mp4)');
   });
 });

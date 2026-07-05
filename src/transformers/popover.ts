@@ -93,6 +93,31 @@ export function transform(content: string): string {
   return applyPatterns(content, patterns);
 }
 
+/**
+ * Degrade a popover to plain markdown: the inline form becomes
+ * `**trigger** (content)`; the block form becomes `**trigger**\n\ncontent`.
+ */
+export function renderAsMarkdown(content: string): string {
+  const inlinePattern: Pattern = {
+    regex: INLINE_REGEX,
+    handler: (captures) => {
+      const combined = captures[0] ?? '';
+      const popoverContent = (captures[1] ?? '').trim();
+      const [, triggerText] = parseInlineTriggerAndParams(combined);
+      return `**${triggerText}** (${popoverContent})`;
+    },
+  };
+
+  const blockProc = (_paramsString = '', triggerText = '', popoverContent = ''): string =>
+    `**${(triggerText ?? '').trim()}**\n\n${(popoverContent ?? '').trim()}`;
+
+  const patterns: Pattern[] = [
+    inlinePattern,
+    ...dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, blockProc),
+  ];
+  return applyPatterns(content, patterns);
+}
+
 function parseParameters(paramsString: string): PopoverOptions {
   if (!paramsString || paramsString.trim() === '') {
     return {

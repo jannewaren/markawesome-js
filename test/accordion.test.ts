@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/accordion.js';
+import { transform, renderAsMarkdown } from '../src/transformers/accordion.js';
 
 describe('AccordionTransformer.transform', () => {
   it('icon + flags + container attrs (exact)', () => {
@@ -44,5 +44,26 @@ describe('AccordionTransformer.transform', () => {
 
   it('heading level', () => {
     expect(transform('//////heading:3\n/// Q\nA\n///\n//////')).toContain('heading-level="3"');
+  });
+});
+
+describe('AccordionTransformer.renderAsMarkdown', () => {
+  it('flattens items into sequential h3 sections', () => {
+    const md = '//////\n/// What is it?\nA library.\n///\n/// Is it free?\nYes.\n///\n//////';
+    expect(renderAsMarkdown(md)).toBe('### What is it?\n\nA library.\n\n### Is it free?\n\nYes.');
+  });
+
+  it('strips leading flags and icon tokens from the heading', () => {
+    const md = '//////\n/// expanded icon:star Favorites\nBody.\n///\n//////';
+    expect(renderAsMarkdown(md)).toBe('### Favorites\n\nBody.');
+  });
+
+  it('handles the alternative :::wa-accordion syntax', () => {
+    const md = ':::wa-accordion\n/// One\nFirst\n///\n/// Two\nSecond\n///\n:::';
+    const result = renderAsMarkdown(md);
+    expect(result).toContain('### One');
+    expect(result).toContain('### Two');
+    expect(result).toContain('First');
+    expect(result).toContain('Second');
   });
 });

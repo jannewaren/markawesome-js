@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { transform } from '../src/transformers/card.js';
+import { transform, renderAsMarkdown } from '../src/transformers/card.js';
 
 describe('CardTransformer.transform', () => {
   it('transforms simple card', () => {
@@ -101,5 +101,24 @@ describe('CardTransformer.transform', () => {
     const result = transform('===\n# This is not a header\nThe content.\n===\n');
     expect(result).not.toContain('slot="header"');
     expect(result).toContain('This is not a header');
+  });
+});
+
+describe('CardTransformer.renderAsMarkdown', () => {
+  it('drops the card wrapper and keeps media, header, body and footer', () => {
+    const md =
+      '===\n![Cover](cover.png)\n**Title line**\nSome body text.\n[Read more](https://example.com)\n===';
+    const result = renderAsMarkdown(md);
+    expect(result).toContain('![Cover](cover.png)');
+    expect(result).toContain('### Title line');
+    expect(result).toContain('Some body text.');
+    expect(result).toContain('[Read more](https://example.com)');
+    expect(result).not.toContain('===');
+  });
+
+  it('handles alternative :::wa-card syntax', () => {
+    const result = renderAsMarkdown(':::wa-card\nJust body\n:::');
+    expect(result).toContain('Just body');
+    expect(result).not.toContain(':::');
   });
 });

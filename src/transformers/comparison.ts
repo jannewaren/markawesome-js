@@ -30,6 +30,32 @@ export function transform(content: string): string {
   );
 }
 
+/**
+ * Degrade a two-image comparison to labelled plain markdown images
+ * (`**Before:** … / **After:** …`). A wrapper without exactly two images is
+ * left untouched, matching the Ruby engine.
+ */
+export function renderAsMarkdown(content: string): string {
+  content = content.replace(PRIMARY_REGEX, (match, _position: string | undefined, inner: string) => {
+    const images = extractImages(inner);
+    return images.length === 2 ? renderComparisonMarkdown(images) : match;
+  });
+
+  return content.replace(
+    ALTERNATIVE_REGEX,
+    (match, _position: string | undefined, inner: string) => {
+      const images = extractImages(inner);
+      return images.length === 2 ? renderComparisonMarkdown(images) : match;
+    },
+  );
+}
+
+function renderComparisonMarkdown(images: ImagePair[]): string {
+  const [beforeAlt, beforeSrc] = images[0]!;
+  const [afterAlt, afterSrc] = images[1]!;
+  return `**Before:** ![${beforeAlt}](${beforeSrc})\n\n**After:** ![${afterAlt}](${afterSrc})`;
+}
+
 function extractImages(content: string): ImagePair[] {
   return [...content.matchAll(IMAGE_REGEX)].map((m) => [m[1] ?? '', m[2] ?? '']);
 }

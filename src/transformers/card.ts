@@ -41,6 +41,26 @@ export function transform(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/**
+ * Degrade a card to plain markdown: media image, `### header`, body, then a
+ * trailing footer link — the parts `parseCardContent` extracts — joined by
+ * blank lines.
+ */
+export function renderAsMarkdown(content: string): string {
+  const transformProc = (_paramsString = '', cardContent = ''): string =>
+    renderCardMarkdown(parseCardContent((cardContent ?? '').trim()));
+  return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
+function renderCardMarkdown(parts: CardParts): string {
+  const blocks: string[] = [];
+  if (parts.media) blocks.push(`![${parts.media.alt}](${parts.media.src})`);
+  if (parts.header) blocks.push(`### ${parts.header}`);
+  if (parts.content && parts.content !== '') blocks.push(parts.content);
+  if (parts.footer) blocks.push(`[${parts.footer.text}](${parts.footer.href})`);
+  return blocks.join('\n\n');
+}
+
 function parseCardContent(content: string): CardParts {
   const parts: CardParts = { media: null, header: null, content, footer: null };
 
