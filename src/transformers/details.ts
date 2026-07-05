@@ -8,7 +8,7 @@ import { applyPatterns, dualSyntaxPatterns } from './base.js';
  *   Primary:     ^^^params?\nsummary\n>>>\ndetails\n^^^
  *   Alternative: :::wa-details params?\nsummary\n>>>\ndetails\n:::
  */
-const COMPONENT_ATTRIBUTES: AttributeSchema = {
+export const COMPONENT_ATTRIBUTES: AttributeSchema = {
   appearance: ['outlined', 'filled', 'filled-outlined', 'plain'],
   icon_placement: ['start', 'end'],
   disabled: ['disabled'],

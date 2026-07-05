@@ -13,7 +13,7 @@ import { applyPatterns, dualSyntaxPatterns } from './base.js';
  *   attention: none pulse bounce
  *   flag: pill
  */
-const BADGE_ATTRIBUTES: AttributeSchema = {
+export const BADGE_ATTRIBUTES: AttributeSchema = {
   variant: ['brand', 'success', 'neutral', 'warning', 'danger'],
   appearance: ['accent', 'filled', 'outlined', 'filled-outlined'],
   attention: ['none', 'pulse', 'bounce'],

@@ -11,7 +11,7 @@ import { applyPatterns, dualSyntaxPatterns, escapeHtml } from './base.js';
  * Runs last in the pipeline so item bodies may contain other already-transformed
  * components.
  */
-const CONTAINER_ATTRIBUTES: AttributeSchema = {
+export const CONTAINER_ATTRIBUTES: AttributeSchema = {
   appearance: ['outlined', 'filled', 'filled-outlined', 'plain'],
   mode: ['multiple', 'single', 'single-collapsible'],
   icon_placement: ['start', 'end'],

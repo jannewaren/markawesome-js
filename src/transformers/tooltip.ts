@@ -8,7 +8,7 @@ import { applyPatterns, escapeHtml, md5Hex8, type Pattern } from './base.js';
  *   Alternative block: :::wa-tooltip params\nanchor\n>>>\ntip\n:::
  * Tip content is plain text (HTML-escaped); literal `\n` becomes `<br>`.
  */
-const TOOLTIP_ATTRIBUTES: AttributeSchema = {
+export const TOOLTIP_ATTRIBUTES: AttributeSchema = {
   // The full wa-tooltip placement surface: the 4 primary plus 8 aligned variants.
   placement: [
     'top',

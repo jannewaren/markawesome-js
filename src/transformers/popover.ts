@@ -8,7 +8,7 @@ import { applyPatterns, dualSyntaxPatterns, escapeHtml, md5Hex8, type Pattern } 
  *   Primary:     &&&params\ntrigger\n>>>\ncontent\n&&&
  *   Alternative: :::wa-popover params\ntrigger\n>>>\ncontent\n:::
  */
-const POPOVER_ATTRIBUTES: AttributeSchema = {
+export const POPOVER_ATTRIBUTES: AttributeSchema = {
   // The full wa-popover placement surface: the 4 primary plus 8 aligned variants.
   placement: [
     'top',

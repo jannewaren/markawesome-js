@@ -7,7 +7,7 @@ import { applyPatterns, dualSyntaxPatterns } from './base.js';
  *   Primary:     ++++++[attrs]\n+++ tab1\ncontent\n+++\n…\n++++++
  *   Alternative: :::wa-tab-group [attrs]\n+++ tab1\ncontent\n+++\n…\n:::
  */
-const COMPONENT_ATTRIBUTES: AttributeSchema = {
+export const COMPONENT_ATTRIBUTES: AttributeSchema = {
   placement: ['top', 'bottom', 'start', 'end'],
   activation: ['auto', 'manual'],
 };

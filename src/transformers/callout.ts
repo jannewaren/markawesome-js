@@ -11,8 +11,8 @@ import { applyPatterns, dualSyntaxPatterns } from './base.js';
  *   Alternative: :::wa-callout variant [size] [appearance]\ncontent\n:::
  * Variants: brand, info (alias for brand), success, neutral, warning, danger.
  */
-const VARIANTS = ['info', 'brand', 'success', 'neutral', 'warning', 'danger'];
-const CALLOUT_ATTRIBUTES: AttributeSchema = {
+export const VARIANTS = ['info', 'brand', 'success', 'neutral', 'warning', 'danger'];
+export const CALLOUT_ATTRIBUTES: AttributeSchema = {
   size: ['xs', 's', 'm', 'l', 'xl', 'small', 'medium', 'large'],
   appearance: ['accent', 'filled', 'outlined', 'plain', 'filled-outlined'],
 };

@@ -9,7 +9,7 @@ import { applyPatterns, dualSyntaxPatterns } from './base.js';
  * The first markdown image becomes the media slot, the first bold line (not a
  * heading) becomes the header slot, and a trailing link becomes the footer.
  */
-const CARD_ATTRIBUTES: AttributeSchema = {
+export const CARD_ATTRIBUTES: AttributeSchema = {
   appearance: ['outlined', 'filled', 'filled-outlined', 'plain', 'accent'],
   orientation: ['vertical', 'horizontal'],
 };

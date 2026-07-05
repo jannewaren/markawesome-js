@@ -26,7 +26,7 @@ import { applyPatterns, dualSyntaxPatterns } from './base.js';
 const MODE_VALUES = ['unique', 'random', 'sequence'];
 const ANIMATION_VALUES = ['none', 'fade', 'fade-up', 'fade-down', 'fade-left', 'fade-right'];
 
-const COMPONENT_ATTRIBUTES: AttributeSchema = {
+export const COMPONENT_ATTRIBUTES: AttributeSchema = {
   mode: MODE_VALUES,
   animation: ANIMATION_VALUES,
   autoplay: ['autoplay'],

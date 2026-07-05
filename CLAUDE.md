@@ -140,6 +140,42 @@ changing transformer behaviour, parity is the spec, not the local tests alone.
 - Tests live in `test/*.test.ts`, one per transformer plus `process`/`config`/
   `parity-corpus`; they import from `../src/...js`.
 
+## Web Awesome manifest coverage — keeping the enum lists honest
+
+The transformers accept curated enum values (e.g. `BADGE_ATTRIBUTES.variant`)
+hand-transcribed from Web Awesome's docs. `test/webawesome-manifest-coverage.test.ts`
+guards those `*_ATTRIBUTES` consts against Web Awesome's machine-readable **Custom
+Elements Manifest**, pinned to a single WA release (`WA_VERSION`, currently **3.10.0**).
+For each `(constant → wa-tag/attribute)` mapping it fails on **DRIFT** (a value we
+accept that WA no longer lists) and **GAP** (a WA value we don't expose, gated by
+`INTENTIONALLY_OMITTED`, which starts empty). Entries WA can't describe as an inline
+enum are surfaced as `it.skip`. To read the live values, the mapped consts carry an
+`export` — additive only; `index.ts` and the published bundle are untouched.
+
+The fixture `test/fixtures/webawesome-enums.json` is a **derived artifact — never
+hand-edit it.** It is a distilled slice of WA's `custom-elements.json`, byte-identical
+to `markawesome`'s copy (`diff` them to confirm), produced only by the generator.
+
+### Refreshing when Web Awesome releases a new version
+
+When WA ships e.g. 3.11.0:
+
+1. Regenerate the fixture: `npm run update-wa-manifest 3.11.0`. This fetches that
+   version's manifest from unpkg and overwrites `test/fixtures/webawesome-enums.json`
+   in place. Do the same in `markawesome` (`bundle exec rake wa:manifest[3.11.0]`) so
+   both fixtures stay byte-identical.
+2. Bump `WA_VERSION` to `'3.11.0'` in the test (and in `markawesome`'s spec).
+3. Re-run the tests. **Green ⇒ nothing enum-relevant changed, done.** **Red is the
+   point** — the git diff of `webawesome-enums.json` shows exactly what moved:
+   - **GAP** (WA added a value) → implement the new option in *both* engines (and,
+     per the six-repo lockstep rule, `markawesome-vscode` + `markawesome-skill`), or
+     record it in `INTENTIONALLY_OMITTED` with a one-line reason.
+   - **DRIFT** (WA removed/renamed a value) → update/remove it from the transformer
+     constants in both engines.
+4. Commit the regenerated fixture and any transformer changes together.
+
+The human decision is only *how to react to the diff*; extraction stays mechanical.
+
 ## Branching & Commits
 
 This repo works directly on `main` — there is **no feature-branch convention**.

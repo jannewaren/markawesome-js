@@ -9,7 +9,7 @@ import { applyPatterns, dualSyntaxPatterns, type Pattern } from './base.js';
  *   Inline:        @@@ params? content @@@
  *   Alternative:   :::wa-tag params?\ncontent\n:::
  */
-const COMPONENT_ATTRIBUTES: AttributeSchema = {
+export const COMPONENT_ATTRIBUTES: AttributeSchema = {
   variant: ['brand', 'success', 'neutral', 'warning', 'danger'],
   appearance: ['accent', 'filled', 'outlined', 'filled-outlined'],
   size: ['xs', 's', 'm', 'l', 'xl', 'small', 'medium', 'large'],

@@ -42,7 +42,7 @@ const TIME_PRESETS: Record<string, Record<string, string>> = {
 
 // Granular key:value tokens passed through to the same-named WA attribute,
 // validated against an allowed enum (invalid values dropped).
-const GRANULAR_ENUMS: Record<string, string[]> = {
+export const GRANULAR_ENUMS: Record<string, string[]> = {
   weekday: ['narrow', 'short', 'long'],
   era: ['narrow', 'short', 'long'],
   year: ['numeric', '2-digit'],
@@ -86,8 +86,8 @@ const FORMAT_DATE_ORDER = [
   'lang',
 ];
 
-const RELATIVE_FORMATS = ['long', 'short', 'narrow'];
-const RELATIVE_NUMERICS = ['auto', 'always'];
+export const RELATIVE_FORMATS = ['long', 'short', 'narrow'];
+export const RELATIVE_NUMERICS = ['auto', 'always'];
 
 // Own-property check (not `in`) so a token like `style:constructor` can't reach
 // an inherited prototype member — matching Ruby's `Hash#key?`.

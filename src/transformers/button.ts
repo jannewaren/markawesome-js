@@ -10,7 +10,7 @@ import { applyPatterns, dualSyntaxPatterns } from './base.js';
  *
  * Link-form (content is a markdown link) additionally supports target/download.
  */
-const BUTTON_ATTRIBUTES: AttributeSchema = {
+export const BUTTON_ATTRIBUTES: AttributeSchema = {
   variant: ['brand', 'success', 'neutral', 'warning', 'danger'],
   appearance: ['accent', 'filled', 'outlined', 'filled-outlined', 'plain'],
   size: ['xs', 's', 'm', 'l', 'xl', 'small', 'medium', 'large'],

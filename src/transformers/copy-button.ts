@@ -10,7 +10,7 @@ import { applyPatterns, dualSyntaxPatterns } from './base.js';
  * NOT markdown-rendered. Params: placement, tooltip:mode, numeric duration,
  * disabled, copy/success/error labels, from.
  */
-const COPY_BUTTON_ATTRIBUTES: AttributeSchema = {
+export const COPY_BUTTON_ATTRIBUTES: AttributeSchema = {
   placement: ['top', 'right', 'bottom', 'left'],
   disabled: ['disabled'],
 };

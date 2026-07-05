@@ -29,8 +29,8 @@ const VIDEO_FLAGS: AttributeSchema = {
 /** Deterministic emission order for the boolean flags. */
 const FLAG_ORDER = ['autoplay', 'autoplay-muted', 'autoplay-on-visible', 'loop', 'muted'];
 
-const CONTROLS_VALUES = ['none', 'standard', 'full'];
-const PRELOAD_VALUES = ['auto', 'metadata', 'none'];
+export const CONTROLS_VALUES = ['none', 'standard', 'full'];
+export const PRELOAD_VALUES = ['auto', 'metadata', 'none'];
 
 // Ruby `/m` DOTALL body captures become `[\s\S]*?`; line-anchored `^`/`$` carry
 // the `m` flag; `gsub` carries `g`. The bare `;;;\n` item open (no params) is
