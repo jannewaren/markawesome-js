@@ -145,7 +145,7 @@ changing transformer behaviour, parity is the spec, not the local tests alone.
 The transformers accept curated enum values (e.g. `BADGE_ATTRIBUTES.variant`)
 hand-transcribed from Web Awesome's docs. `test/webawesome-manifest-coverage.test.ts`
 guards those `*_ATTRIBUTES` consts against Web Awesome's machine-readable **Custom
-Elements Manifest**, pinned to a single WA release (`WA_VERSION`, currently **3.10.0**).
+Elements Manifest**, pinned to a single WA release (`WA_VERSION`, currently **3.11.0**).
 For each `(constant → wa-tag/attribute)` mapping it fails on **DRIFT** (a value we
 accept that WA no longer lists) and **GAP** (a WA value we don't expose, gated by
 `INTENTIONALLY_OMITTED`, which starts empty). Entries WA can't describe as an inline

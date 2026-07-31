@@ -44,6 +44,31 @@ describe('DialogTransformer.transform', () => {
     expect(result).not.toContain('without-header');
     expect(result).toContain("label='");
   });
+
+  // An <img> in the trigger makes the button chrome-less via CSS parts. WA 3.11 deprecated
+  // wa-button's generic `base` part in favour of `button`; we emit both so the style lands on
+  // 3.10-pinned sites (no `button` part) and 3.11+ sites alike. Byte-for-byte parity with
+  // markawesome's spec/dialog_transformer_spec.rb.
+  it('image trigger targets both the deprecated base part and the WA 3.11 button part', () => {
+    const result = transform(
+      '???\n<img src="/photo.png" alt="A photo" />\n>>>\nContent here.\n???\n',
+    );
+    expect(result).toContain(
+      '  #dialog-f14fd894-btn::part(base), #dialog-f14fd894-btn::part(button) {',
+    );
+    expect(result).toContain(
+      '  #dialog-f14fd894-btn::part(base):hover, #dialog-f14fd894-btn::part(button):hover {',
+    );
+    expect(result).toContain(
+      '  #dialog-f14fd894-btn::part(base):active, #dialog-f14fd894-btn::part(button):active {',
+    );
+  });
+
+  it('emits no part styling when the trigger has no image', () => {
+    const result = transform('???\nOpen Dialog\n>>>\nContent here.\n???\n');
+    expect(result).not.toContain('::part(');
+    expect(result).not.toContain('<style>');
+  });
 });
 
 describe('DialogTransformer.renderAsMarkdown', () => {

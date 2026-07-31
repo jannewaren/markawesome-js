@@ -91,8 +91,13 @@ function buildDialogHtml(
   const html: string[] = [];
 
   if (isImageButton) {
+    // WA 3.11 deprecated wa-button's generic `base` part in favour of a part named after
+    // the component (`button`). `base` still works but is on its way out, so target both —
+    // the output then styles correctly on 3.10-pinned and 3.11+ sites.
+    const wrapperParts = (state: string) =>
+      `  #${buttonId}::part(base)${state}, #${buttonId}::part(button)${state} {`;
     html.push('<style>');
-    html.push(`  #${buttonId}::part(base) {`);
+    html.push(wrapperParts(''));
     html.push('    padding: 0;');
     html.push('    margin: 0;');
     html.push('    border: none;');
@@ -102,11 +107,11 @@ function buildDialogHtml(
     html.push('    min-width: 0;');
     html.push('    height: auto;');
     html.push('  }');
-    html.push(`  #${buttonId}::part(base):hover {`);
+    html.push(wrapperParts(':hover'));
     html.push('    background: transparent;');
     html.push('    border-color: transparent;');
     html.push('  }');
-    html.push(`  #${buttonId}::part(base):active {`);
+    html.push(wrapperParts(':active'));
     html.push('    background: transparent;');
     html.push('    border-color: transparent;');
     html.push('  }');
