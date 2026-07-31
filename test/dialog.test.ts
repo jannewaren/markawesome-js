@@ -69,6 +69,33 @@ describe('DialogTransformer.transform', () => {
     expect(result).not.toContain('::part(');
     expect(result).not.toContain('<style>');
   });
+
+  // The id hashes the trigger and body only, so two dialogs differing solely by a param
+  // collide — and identical ones always do. Repeats get -2, -3, … like popover/tooltip.
+  // Byte-for-byte parity with markawesome's spec/dialog_transformer_spec.rb.
+  it('suffixes a repeat that differs only by width', () => {
+    const result = transform(
+      '???\nOpen\n>>>\nSame body.\n???\n\n???60%\nOpen\n>>>\nSame body.\n???\n',
+    );
+    expect(result).toContain("id='dialog-03d05068'");
+    expect(result).toContain("data-dialog='open dialog-03d05068'");
+    expect(result).toContain("id='dialog-03d05068-2'");
+    expect(result).toContain("data-dialog='open dialog-03d05068-2'");
+    // The suffixed dialog is the one carrying the width — they are not aliased
+    expect(result).toMatch(/id='dialog-03d05068-2'[^>]*style='--width: 60%'/);
+  });
+
+  it('suffixes byte-identical dialogs, which no content hash can separate', () => {
+    const one = '???\nOpen\n>>>\nSame body.\n???\n';
+    const result = transform(`${one}\n${one}`);
+    const ids = new Set(result.match(/id='dialog-[0-9a-f]{8}(?:-\d+)?'/g));
+    expect(ids.size).toBe(2);
+  });
+
+  it('numbers a third repeat -3', () => {
+    const one = '???\nOpen\n>>>\nSame body.\n???\n';
+    expect(transform(`${one}\n${one}\n${one}`)).toContain("id='dialog-03d05068-3'");
+  });
 });
 
 describe('DialogTransformer.renderAsMarkdown', () => {

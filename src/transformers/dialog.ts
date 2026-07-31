@@ -18,13 +18,17 @@ const ALTERNATIVE_REGEX = /^:::wa-dialog([^\n]*)$\n([\s\S]*?)\n^>>>$\n([\s\S]*?)
 const WIDTH_TOKEN = /^\d+(\.\d+)?(px|em|rem|vw|vh|%|ch)$/;
 
 export function transform(content: string): string {
+  // Two dialogs with the same trigger and body hash alike, so suffix repeats
+  // (-2, -3, …) to keep ids unique — same scheme as popover/tooltip.
+  const seenIds: Record<string, number> = {};
+
   const transformProc = (paramsString = '', buttonTextRaw = '', dialogContentRaw = ''): string => {
     const buttonText = buttonTextRaw.trim();
     const dialogContent = dialogContentRaw.trim();
 
     const [lightDismiss, width] = parseParameters(paramsString);
     const [label, contentWithoutLabel] = extractLabel(dialogContent, buttonText);
-    const dialogId = `dialog-${md5Hex8(`${buttonText}${dialogContent}`)}`;
+    const dialogId = generateDialogId(buttonText, dialogContent, seenIds);
     const contentHtml = renderMarkdown(contentWithoutLabel);
 
     return buildDialogHtml(dialogId, buttonText, label, contentHtml, lightDismiss, width);
@@ -45,6 +49,23 @@ export function renderAsMarkdown(content: string): string {
     return `_${trigger}:_\n\n${body}`;
   };
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
+}
+
+/**
+ * The hash covers the trigger and body only, so two dialogs differing solely by a
+ * param (e.g. width) would collide — and identical ones always do. The occurrence
+ * counter disambiguates: the first keeps the bare id, later ones get -2, -3, …
+ * Mirrors generatePopoverId / generateTooltipId.
+ */
+function generateDialogId(
+  buttonText: string,
+  content: string,
+  seenIds: Record<string, number>,
+): string {
+  const base = `dialog-${md5Hex8(`${buttonText}${content}`)}`;
+  seenIds[base] = (seenIds[base] ?? 0) + 1;
+  const occurrence = seenIds[base];
+  return occurrence === 1 ? base : `${base}-${occurrence}`;
 }
 
 function parseParameters(paramsString: string): [boolean, string | undefined] {
