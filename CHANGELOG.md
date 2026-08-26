@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-08-26
+
 ### Added
 
 - **`plainMarkdown` — a "Markawesome → plain Markdown" renderer** that degrades every Web Awesome component to its closest GFM equivalent, for serving per-page `.md` endpoints and generating `llms.txt` content that LLM consumers can read without understanding `<wa-*>` tags. Exposed as a namespace: `plainMarkdown.process(content, options?)`, plus the override registry `registerOverride(component, fn)` / `resetOverrides()` / `overrides()`. New `PlainMarkdownOptions` / `PlainMarkdownOverride` types are exported.
