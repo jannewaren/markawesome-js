@@ -145,7 +145,7 @@ changing transformer behaviour, parity is the spec, not the local tests alone.
 The transformers accept curated enum values (e.g. `BADGE_ATTRIBUTES.variant`)
 hand-transcribed from Web Awesome's docs. `test/webawesome-manifest-coverage.test.ts`
 guards those `*_ATTRIBUTES` consts against Web Awesome's machine-readable **Custom
-Elements Manifest**, pinned to a single WA release (`WA_VERSION`, currently **3.11.0**).
+Elements Manifest**, pinned to a single WA release (`WA_VERSION`, currently **3.12.0**).
 For each `(constant → wa-tag/attribute)` mapping it fails on **DRIFT** (a value we
 accept that WA no longer lists) and **GAP** (a WA value we don't expose, gated by
 `INTENTIONALLY_OMITTED`, which starts empty). Entries WA can't describe as an inline
@@ -158,13 +158,13 @@ to `markawesome`'s copy (`diff` them to confirm), produced only by the generator
 
 ### Refreshing when Web Awesome releases a new version
 
-When WA ships e.g. 3.11.0:
+When WA ships e.g. 3.12.0:
 
-1. Regenerate the fixture: `npm run update-wa-manifest 3.11.0`. This fetches that
+1. Regenerate the fixture: `npm run update-wa-manifest 3.12.0`. This fetches that
    version's manifest from unpkg and overwrites `test/fixtures/webawesome-enums.json`
-   in place. Do the same in `markawesome` (`bundle exec rake wa:manifest[3.11.0]`) so
+   in place. Do the same in `markawesome` (`bundle exec rake wa:manifest[3.12.0]`) so
    both fixtures stay byte-identical.
-2. Bump `WA_VERSION` to `'3.11.0'` in the test (and in `markawesome`'s spec).
+2. Bump `WA_VERSION` to `'3.12.0'` in the test (and in `markawesome`'s spec).
 3. Re-run the tests. **Green ⇒ nothing enum-relevant changed, done.** **Red is the
    point** — the git diff of `webawesome-enums.json` shows exactly what moved:
    - **GAP** (WA added a value) → implement the new option in *both* engines (and,
