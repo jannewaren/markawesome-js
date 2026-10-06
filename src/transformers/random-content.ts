@@ -3,7 +3,7 @@ import { renderMarkdown } from '../markdown.js';
 import { applyPatterns, dualSyntaxPatterns } from './base.js';
 
 /**
- * Transforms random-content syntax into Web Awesome's experimental
+ * Transforms random-content syntax into Web Awesome's
  * `<wa-random-content>` element, which shows one or more of its direct element
  * children at random (optionally rotating them) and hides the rest — all in
  * WA's own runtime, so the author writes zero JavaScript. A byte-for-byte

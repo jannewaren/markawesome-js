@@ -6,6 +6,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Internal
+
+- **Refreshed the Web Awesome manifest fixture to 3.14.0** (September 24th, 2026; covers 3.13.0 too). `npm run update-wa-manifest 3.14.0` regenerated `test/fixtures/webawesome-enums.json` and `WA_VERSION` moved to `3.14.0`. The diff is **purely additive** — new `wa-step`, `wa-stepper` and `wa-tag-input` tags and a `label-placement` enum on `wa-divider` — with **zero DRIFT and zero GAP**, so no transformer constant changed. `<wa-random-content>` is now **stable** in Web Awesome, so its doc comment no longer calls it experimental. Fixture remains byte-identical to Ruby `markawesome`'s copy.
+
 ## [0.4.0] - 2026-08-26
 
 ### Added

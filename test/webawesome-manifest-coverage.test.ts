@@ -31,7 +31,7 @@ import { CONTROLS_VALUES, PRELOAD_VALUES } from '../src/transformers/video.js';
 
 // The Web Awesome release these lists are curated against. Bump in lockstep with
 // regenerating the fixture.
-const WA_VERSION = '3.12.0';
+const WA_VERSION = '3.14.0';
 
 const fixture = JSON.parse(
   readFileSync(new URL('./fixtures/webawesome-enums.json', import.meta.url), 'utf8'),
