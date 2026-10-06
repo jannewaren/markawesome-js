@@ -6,6 +6,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **Labeled divider** (`src/transformers/divider.ts`, byte-for-byte mirror of Ruby `DividerTransformer`). One-line `--- label ---` shorthand and a `:::wa-divider params?` alternative (body = label, may be empty) → `<wa-divider>` with the label in its default slot (Web Awesome 3.13.0+). Leading `start`/`center`/`end` → `label-placement`, `horizontal`/`vertical` → `orientation`, `icon:name` → a `<wa-icon>` before the label; the rest is inline Markdown. Plain `---`, `--- ---` and pipe-less table separators such as `--- | ---` are untouched. Exports `transform`, `renderAsMarkdown` and `DIVIDER_ATTRIBUTES`.
+- **Display-only stepper** (`src/transformers/stepper.ts`, mirror of Ruby `StepperTransformer`). A `>>>>>> params?` fence (or `:::wa-stepper`) around a Markdown task list → `<wa-stepper>`/`<wa-step>` (Web Awesome 3.14.0, experimental). `[x]` → `completed`; leading `active`/`loading`/`disabled`, variant, attention and `icon:name` flags; indented lines → the `description` slot; steps named `step-1…N` with `active` resolved statically (explicit flag, else first incomplete, else last). Container params `horizontal`/`vertical`/`auto` and `label:"…"`. Interactivity (`clickable`, `linear`) is intentionally omitted. Exports `transform`, `renderAsMarkdown`, `STEPPER_ATTRIBUTES` and `STEP_ATTRIBUTES`.
+- Both run **first** in `process` and in the `plainMarkdown` pipeline (new `divider` / `stepper` override names), so they can sit inside any container body. Both are on the `transformers` barrel. Their plain-Markdown degrades are a thematic break plus label paragraph, and an ordered task list with the current step in bold.
+- Parity locked by 14 new corpus cases (`divider-*`, `stepper-*`), each verified byte-identical to the Ruby engine for both `process` and `plainMarkdown.process`, plus exact-string unit tests in `test/divider.test.ts` and `test/stepper.test.ts`. Manifest coverage now guards `wa-divider` `orientation`/`label-placement`, `wa-stepper` `orientation` and `wa-step` `variant`/`attention`.
+
 ### Internal
 
 - **Refreshed the Web Awesome manifest fixture to 3.14.0** (September 24th, 2026; covers 3.13.0 too). `npm run update-wa-manifest 3.14.0` regenerated `test/fixtures/webawesome-enums.json` and `WA_VERSION` moved to `3.14.0`. The diff is **purely additive** — new `wa-step`, `wa-stepper` and `wa-tag-input` tags and a `label-placement` enum on `wa-divider` — with **zero DRIFT and zero GAP**, so no transformer constant changed. `<wa-random-content>` is now **stable** in Web Awesome, so its doc comment no longer calls it experimental. Fixture remains byte-identical to Ruby `markawesome`'s copy.

@@ -70,6 +70,45 @@ exports[`parity corpus (locked to Ruby-matching output) > date-relative 1`] = `"
 
 exports[`parity corpus (locked to Ruby-matching output) > date-relative-sync 1`] = `"Live <wa-relative-time date="2026-06-20" sync></wa-relative-time>"`;
 
+exports[`parity corpus (locked to Ruby-matching output) > divider-alt 1`] = `"<wa-divider label-placement="start"><wa-icon name="star"></wa-icon> Release <strong>notes</strong></wa-divider>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > divider-alt-empty 1`] = `"<wa-divider orientation="vertical"></wa-divider>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > divider-icon-end 1`] = `"<wa-divider label-placement="end"><wa-icon name="star"></wa-icon> New</wa-divider>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > divider-icon-only 1`] = `"<wa-divider><wa-icon name="quote-left"></wa-icon></wa-divider>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > divider-in-card 1`] = `
+"<wa-card><p>Top</p>
+<wa-divider>or</wa-divider>
+<p>Bottom</p>
+</wa-card>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > divider-in-cluster 1`] = `
+"<div class="wa-cluster">
+<wa-button>Yes</wa-button>
+<wa-divider orientation="vertical">vs</wa-divider>
+<wa-button>No</wa-button>
+</div>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > divider-label 1`] = `
+"Before
+
+<wa-divider>or</wa-divider>
+
+After"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > divider-start 1`] = `"<wa-divider label-placement="start">Release <strong>notes</strong></wa-divider>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > divider-table-separator-untouched 1`] = `
+"a | b
+--- | ---
+1 | 2"
+`;
+
 exports[`parity corpus (locked to Ruby-matching output) > icon-3.10-canvas 1`] = `"<wa-icon name="star" canvas="roomy"></wa-icon>"`;
 
 exports[`parity corpus (locked to Ruby-matching output) > icon-3.10-full-order 1`] = `"<wa-icon name="star" family="sharp" variant="semibold" animation="wag" canvas="roomy"></wa-icon>"`;
@@ -112,6 +151,19 @@ exports[`parity corpus (locked to Ruby-matching output) > random-content-autopla
 exports[`parity corpus (locked to Ruby-matching output) > random-content-single 1`] = `
 "<wa-random-content><div><p>Just the one option</p>
 </div></wa-random-content>"
+`;
+
+exports[`parity corpus (locked to Ruby-matching output) > stepper-all-complete 1`] = `"<wa-stepper active="step-3"><wa-step name="step-1" completed>One</wa-step><wa-step name="step-2" completed>Two</wa-step><wa-step name="step-3" completed>Three</wa-step></wa-stepper>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > stepper-alt 1`] = `"<wa-stepper orientation="auto" active="step-1"><wa-step name="step-1"><wa-icon slot="icon" name="cart"></wa-icon>Cart</wa-step><wa-step name="step-2" disabled variant="danger">Pay</wa-step></wa-stepper>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > stepper-checkout 1`] = `"<wa-stepper orientation="vertical" label="Checkout progress" active="step-3"><wa-step name="step-1" completed>Cart</wa-step><wa-step name="step-2" completed>Shipping<span slot="description">Standard, 3 to 5 days</span></wa-step><wa-step name="step-3" attention="pulse"><wa-icon slot="icon" name="credit-card"></wa-icon>Payment</wa-step><wa-step name="step-4">Review</wa-step></wa-stepper>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > stepper-explicit-active 1`] = `"<wa-stepper orientation="horizontal" active="step-2"><wa-step name="step-1" completed>Build</wa-step><wa-step name="step-2" loading variant="warning">Deploy<span slot="description">Waiting on <strong>CI</strong></span></wa-step><wa-step name="step-3">Verify</wa-step></wa-stepper>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > stepper-in-callout 1`] = `
+"<wa-callout variant="brand"><wa-icon slot="icon" name="circle-info" variant="solid"></wa-icon><wa-stepper active="step-1"><wa-step name="step-1">Plan</wa-step><wa-step name="step-2">Build</wa-step></wa-stepper>
+</wa-callout>"
 `;
 
 exports[`parity corpus (locked to Ruby-matching output) > tabs-disabled 1`] = `
@@ -219,6 +271,78 @@ exports[`parity corpus — plain markdown (locked to Ruby-matching output) > dat
 
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > date-relative-sync 1`] = `"Live 2026-06-20"`;
 
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-alt 1`] = `
+"
+---
+
+Release **notes**
+"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-alt-empty 1`] = `
+"
+---"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-icon-end 1`] = `
+"
+---
+
+New
+"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-icon-only 1`] = `
+"
+---"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-in-card 1`] = `
+"Top
+
+---
+
+or
+
+Bottom"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-in-cluster 1`] = `
+"**Yes**
+
+---
+
+vs
+
+**No**"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-label 1`] = `
+"Before
+
+
+---
+
+or
+
+
+After"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-start 1`] = `
+"
+---
+
+Release **notes**
+"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > divider-table-separator-untouched 1`] = `
+"a | b
+--- | ---
+1 | 2"
+`;
+
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > icon-3.10-canvas 1`] = `""`;
 
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > icon-3.10-full-order 1`] = `""`;
@@ -254,6 +378,38 @@ Tip three"
 `;
 
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > random-content-single 1`] = `"Just the one option"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > stepper-all-complete 1`] = `
+"1. [x] One
+2. [x] Two
+3. [x] **Three**"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > stepper-alt 1`] = `
+"1. [ ] **Cart**
+2. [ ] Pay"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > stepper-checkout 1`] = `
+"1. [x] Cart
+2. [x] Shipping
+   Standard, 3 to 5 days
+3. [ ] **Payment**
+4. [ ] Review"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > stepper-explicit-active 1`] = `
+"1. [x] Build
+2. [ ] **Deploy**
+   Waiting on **CI**
+3. [ ] Verify"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > stepper-in-callout 1`] = `
+"> [!NOTE]
+> 1. [ ] **Plan**
+> 2. [ ] Build"
+`;
 
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tabs-disabled 1`] = `
 "### Tab 1

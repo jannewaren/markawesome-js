@@ -10,12 +10,14 @@ import * as copyButton from './transformers/copy-button.js';
 import * as date from './transformers/date.js';
 import * as details from './transformers/details.js';
 import * as dialog from './transformers/dialog.js';
+import * as divider from './transformers/divider.js';
 import * as icon from './transformers/icon.js';
 import * as imageDialog from './transformers/image-dialog.js';
 import type { ImageDialogConfig } from './transformers/image-dialog.js';
 import * as layout from './transformers/layout.js';
 import * as popover from './transformers/popover.js';
 import * as randomContent from './transformers/random-content.js';
+import * as stepper from './transformers/stepper.js';
 import * as tabs from './transformers/tabs.js';
 import * as tag from './transformers/tag.js';
 import * as tooltip from './transformers/tooltip.js';
@@ -59,6 +61,8 @@ interface PipelineStep {
 }
 
 const PIPELINE: PipelineStep[] = [
+  { name: 'divider', render: (c) => divider.renderAsMarkdown(c) },
+  { name: 'stepper', render: (c) => stepper.renderAsMarkdown(c) },
   { name: 'layout', render: (c) => layout.renderAsMarkdown(c) },
   { name: 'popover', render: (c) => popover.renderAsMarkdown(c) },
   { name: 'tooltip', render: (c) => tooltip.renderAsMarkdown(c) },
@@ -100,10 +104,10 @@ const overrideRegistry = new Map<string, PlainMarkdownOverride>();
 /**
  * Register a per-component override. Consumers can call this during boot to
  * replace the default degradation for a single component without forking the
- * package. `component` is one of the pipeline names: `layout`, `popover`,
- * `tooltip`, `date`, `badge`, `button`, `callout`, `card`, `carousel`,
- * `comparison`, `video`, `copyButton`, `details`, `imageDialog`, `dialog`,
- * `icon`, `tag`, `tabs`, `accordion`, `tree`, `randomContent`.
+ * package. `component` is one of the pipeline names: `divider`, `stepper`,
+ * `layout`, `popover`, `tooltip`, `date`, `badge`, `button`, `callout`, `card`,
+ * `carousel`, `comparison`, `video`, `copyButton`, `details`, `imageDialog`,
+ * `dialog`, `icon`, `tag`, `tabs`, `accordion`, `tree`, `randomContent`.
  */
 export function registerOverride(component: string, fn: PlainMarkdownOverride): void {
   overrideRegistry.set(component, fn);

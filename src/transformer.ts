@@ -10,12 +10,14 @@ import * as copyButton from './transformers/copy-button.js';
 import * as date from './transformers/date.js';
 import * as details from './transformers/details.js';
 import * as dialog from './transformers/dialog.js';
+import * as divider from './transformers/divider.js';
 import * as icon from './transformers/icon.js';
 import * as imageDialog from './transformers/image-dialog.js';
 import type { ImageDialogConfig } from './transformers/image-dialog.js';
 import * as layout from './transformers/layout.js';
 import * as popover from './transformers/popover.js';
 import * as randomContent from './transformers/random-content.js';
+import * as stepper from './transformers/stepper.js';
 import * as tabs from './transformers/tabs.js';
 import * as tag from './transformers/tag.js';
 import * as tooltip from './transformers/tooltip.js';
@@ -42,6 +44,14 @@ export function process(content: string, options: ProcessOptions = {}): string {
   const { content: protectedContent, tokens } = codeBlockProtector.protect(content);
 
   let c = protectedContent;
+
+  // Divider and stepper run FIRST: their content is inline-only (a label, a
+  // list of one-line steps), so emitting them before any container lets them
+  // sit inside layouts, cards, callouts, tabs, accordion and dialog bodies —
+  // e.g. `--- vertical vs ---` inside a `::::cluster`.
+  c = divider.transform(c);
+  c = stepper.transform(c);
+
   c = layout.transform(c);
   c = popover.transform(c);
   c = tooltip.transform(c);

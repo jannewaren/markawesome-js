@@ -153,6 +153,41 @@ const CORPUS: Array<{ name: string; input: string }> = [
     name: 'callout-icon-3.10',
     input: ':::danger jelly semibold wag\nWatch out\n:::',
   },
+  // Divider: `--- label ---` shorthand -> labeled <wa-divider>. Covers a centered
+  // label, start placement, icon + end placement, an icon-only flourish, the
+  // `:::wa-divider` alternative (label body and empty body), a pipe-less table
+  // separator that must stay untouched, and — because divider runs first —
+  // a vertical divider between buttons in a cluster and one inside a card.
+  { name: 'divider-label', input: 'Before\n\n--- or ---\n\nAfter' },
+  { name: 'divider-start', input: '--- start Release **notes** ---' },
+  { name: 'divider-icon-end', input: '--- end icon:star New ---' },
+  { name: 'divider-icon-only', input: '--- icon:quote-left ---' },
+  { name: 'divider-alt', input: ':::wa-divider start icon:star\nRelease **notes**\n:::' },
+  { name: 'divider-alt-empty', input: ':::wa-divider vertical\n:::' },
+  { name: 'divider-table-separator-untouched', input: 'a | b\n--- | ---\n1 | 2' },
+  {
+    name: 'divider-in-cluster',
+    input: '::::cluster\n%%%\nYes\n%%%\n--- vertical vs ---\n%%%\nNo\n%%%\n::::',
+  },
+  { name: 'divider-in-card', input: '===\nTop\n--- or ---\nBottom\n===' },
+  // Stepper: `>>>>>>` fence around a task list -> <wa-stepper>/<wa-step>. Covers
+  // the vertical checkout (label, description, icon, attention), the explicit
+  // `active` flag with variant/loading, an all-complete stepper (last step
+  // active), the `:::wa-stepper` alternative, and a stepper nested in a callout
+  // (no boolean attributes: Kramdown re-serializes nested `completed` as
+  // `completed=""`, a pre-existing cosmetic difference).
+  {
+    name: 'stepper-checkout',
+    input:
+      '>>>>>> vertical label:"Checkout progress"\n- [x] Cart\n- [x] Shipping\n  Standard, 3 to 5 days\n- [ ] pulse icon:credit-card Payment\n- [ ] Review\n>>>>>>',
+  },
+  {
+    name: 'stepper-explicit-active',
+    input: '>>>>>> horizontal\n- [x] Build\n- [ ] active warning loading Deploy\n  Waiting on **CI**\n- [ ] Verify\n>>>>>>',
+  },
+  { name: 'stepper-all-complete', input: '>>>>>>\n- [x] One\n- [X] Two\n- [x] Three\n>>>>>>' },
+  { name: 'stepper-alt', input: ':::wa-stepper auto\n- icon:cart Cart\n- disabled danger Pay\n:::' },
+  { name: 'stepper-in-callout', input: ':::info\n>>>>>>\n- Plan\n- Build\n>>>>>>\n:::' },
 ];
 
 describe('parity corpus (locked to Ruby-matching output)', () => {

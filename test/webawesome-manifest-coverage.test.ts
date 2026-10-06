@@ -13,6 +13,8 @@ import { POPOVER_ATTRIBUTES } from '../src/transformers/popover.js';
 import { TOOLTIP_ATTRIBUTES } from '../src/transformers/tooltip.js';
 import { COPY_BUTTON_ATTRIBUTES } from '../src/transformers/copy-button.js';
 import { COMPONENT_ATTRIBUTES as RANDOM_ATTRS } from '../src/transformers/random-content.js';
+import { DIVIDER_ATTRIBUTES } from '../src/transformers/divider.js';
+import { STEPPER_ATTRIBUTES, STEP_ATTRIBUTES } from '../src/transformers/stepper.js';
 import { RELATIVE_FORMATS, RELATIVE_NUMERICS, GRANULAR_ENUMS } from '../src/transformers/date.js';
 import { ICON_ATTRIBUTE_SCHEMA } from '../src/icon-attributes.js';
 import { CONTROLS_VALUES, PRELOAD_VALUES } from '../src/transformers/video.js';
@@ -199,6 +201,38 @@ const COVERAGE: Entry[] = [
     tag: 'wa-random-content',
     attr: 'animation',
     accepted: RANDOM_ATTRS.animation!,
+  },
+
+  {
+    label: 'divider orientation',
+    tag: 'wa-divider',
+    attr: 'orientation',
+    accepted: DIVIDER_ATTRIBUTES.orientation!,
+  },
+  {
+    label: 'divider label-placement',
+    tag: 'wa-divider',
+    attr: 'label-placement',
+    accepted: DIVIDER_ATTRIBUTES.label_placement!,
+  },
+
+  {
+    label: 'stepper orientation',
+    tag: 'wa-stepper',
+    attr: 'orientation',
+    accepted: STEPPER_ATTRIBUTES.orientation!,
+  },
+  {
+    label: 'step variant',
+    tag: 'wa-step',
+    attr: 'variant',
+    accepted: STEP_ATTRIBUTES.variant!,
+  },
+  {
+    label: 'step attention',
+    tag: 'wa-step',
+    attr: 'attention',
+    accepted: STEP_ATTRIBUTES.attention!,
   },
 
   {

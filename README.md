@@ -74,6 +74,8 @@ processor (e.g. Eleventy's markdown-it with `html: true`).
 `callout` · `badge` · `button` · `tag` · `icon` · `card` · `copy-button` ·
 `comparison` · `details` · `dialog` · `popover` · `tooltip` · `layout`
 (grid/stack/cluster/split/flank/frame) · `tabs` · `carousel` · `accordion` ·
+`tree` · `random-content` · `video` · `date` · `divider` (labeled,
+`--- label ---`) · `stepper` (display-only, `>>>>>>` around a task list) ·
 `image-dialog`.
 
 See the [markawesome README](https://github.com/jannewaren/markawesome) for the
