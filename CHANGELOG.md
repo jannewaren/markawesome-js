@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-09
+
 ### Added
 
 - **Labeled divider** (`src/transformers/divider.ts`, byte-for-byte mirror of Ruby `DividerTransformer`). One-line `--- label ---` shorthand and a `:::wa-divider params?` alternative (body = label, may be empty) → `<wa-divider>` with the label in its default slot (Web Awesome 3.13.0+). Leading `start`/`center`/`end` → `label-placement`, `horizontal`/`vertical` → `orientation`, `icon:name` → a `<wa-icon>` before the label; the rest is inline Markdown. Plain `---`, `--- ---` and pipe-less table separators such as `--- | ---` are untouched. Exports `transform`, `renderAsMarkdown` and `DIVIDER_ATTRIBUTES`.
