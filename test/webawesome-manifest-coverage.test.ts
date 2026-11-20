@@ -17,6 +17,9 @@ import { DIVIDER_ATTRIBUTES } from '../src/transformers/divider.js';
 import { STEPPER_ATTRIBUTES, STEP_ATTRIBUTES } from '../src/transformers/stepper.js';
 import { RELATIVE_FORMATS, RELATIVE_NUMERICS, GRANULAR_ENUMS } from '../src/transformers/date.js';
 import { ICON_ATTRIBUTE_SCHEMA } from '../src/icon-attributes.js';
+import { COUNTER_DIRECTIONS, COUNTER_FORMATS } from '../src/counter-attributes.js';
+import { LIGHTBOX_ITEM_TYPES } from '../src/transformers/lightbox.js';
+import { TICKER_TYPES, CURRENCY_DISPLAYS } from '../src/transformers/number-ticker.js';
 import { CONTROLS_VALUES, PRELOAD_VALUES } from '../src/transformers/video.js';
 
 /**
@@ -235,6 +238,26 @@ const COVERAGE: Entry[] = [
     accepted: STEP_ATTRIBUTES.attention!,
   },
 
+  {
+    label: 'counter direction',
+    tag: 'wa-counter',
+    attr: 'direction',
+    accepted: COUNTER_DIRECTIONS,
+  },
+  { label: 'counter format', tag: 'wa-counter', attr: 'format', accepted: COUNTER_FORMATS },
+  {
+    label: 'lightbox-item type',
+    tag: 'wa-lightbox-item',
+    attr: 'type',
+    accepted: LIGHTBOX_ITEM_TYPES,
+  },
+  { label: 'number-ticker type', tag: 'wa-number-ticker', attr: 'type', accepted: TICKER_TYPES },
+  {
+    label: 'number-ticker currency-display',
+    tag: 'wa-number-ticker',
+    attr: 'currency-display',
+    accepted: CURRENCY_DISPLAYS,
+  },
   {
     label: 'relative-time format',
     tag: 'wa-relative-time',

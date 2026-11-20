@@ -74,9 +74,11 @@ processor (e.g. Eleventy's markdown-it with `html: true`).
 `callout` · `badge` · `button` · `tag` · `icon` · `card` · `copy-button` ·
 `comparison` · `details` · `dialog` · `popover` · `tooltip` · `layout`
 (grid/stack/cluster/split/flank/frame) · `tabs` · `carousel` · `accordion` ·
-`tree` · `random-content` · `video` · `date` · `divider` (labeled,
-`--- label ---`) · `stepper` (display-only, `>>>>>>` around a task list) ·
-`image-dialog`.
+`tree` · `random-content` · `video` · `date` · `counter` (`[[[ date
+countdown|countup … ]]]`) · `number-ticker` (`[[[ 87% ]]]`, `[[[ 18452.75
+currency:EUR ]]]`) · `lightbox` (`::::lightbox` around image lines) · `divider`
+(labeled, `--- label ---`) · `stepper` (display-only, `>>>>>>` around a task
+list) · `image-dialog`.
 
 See the [markawesome README](https://github.com/jannewaren/markawesome) for the
 full syntax reference — this port is behaviour-compatible.
@@ -86,8 +88,11 @@ full syntax reference — this port is behaviour-compatible.
 Output is verified byte-for-byte against the Ruby engine across a cross-engine
 corpus, including deterministic MD5 ids for dialogs/popovers/tooltips. The only
 intentional divergences are cosmetic whitespace differences between Kramdown and
-markdown-it (markdown list indentation and the wrapping of a standalone raw
-`<img>`), which produce visually identical HTML.
+markdown-it (markdown list indentation, the wrapping of a standalone raw
+`<img>`, and blank lines between sibling blocks), plus Kramdown re-serializing
+raw HTML inside a markdown-rendered container body (a boolean attribute such as
+`with-thumbnails` becomes `with-thumbnails=""`, `<img …>` becomes `<img … />`).
+All produce identical DOM.
 
 ## License
 

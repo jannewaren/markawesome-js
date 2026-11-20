@@ -150,7 +150,92 @@ describe('DateTransformer.transform', () => {
   });
 });
 
+describe('DateTransformer.transform with a counter', () => {
+  it('countdown with a finished message (exact)', () => {
+    expect(
+      transform(`Launch in [[[ 2026-12-24T18:00:00Z countdown finished:"We're live!" ]]]`),
+    ).toBe(
+      'Launch in <wa-counter date="2026-12-24T18:00:00Z">' +
+        '<span slot="finished">We&#39;re live!</span></wa-counter>',
+    );
+  });
+
+  it('count-up with units and a short format (exact)', () => {
+    expect(
+      transform('Up for [[[ 2020-03-01 countup largest:years smallest:days format:short ]]]'),
+    ).toBe(
+      'Up for <wa-counter date="2020-03-01" direction="up" largest-unit="years" ' +
+        'smallest-unit="days" format="short"></wa-counter>',
+    );
+  });
+
+  it('clock style with every option, in a fixed order', () => {
+    expect(
+      transform(
+        '[[[ lang:fi label:"New year" delimiter:":" no-labels largest:hours 2026-12-31T23:59:59 countdown ]]]',
+      ),
+    ).toBe(
+      '<wa-counter date="2026-12-31T23:59:59" largest-unit="hours" without-labels ' +
+        'delimiter=":" label="New year" lang="fi"></wa-counter>',
+    );
+  });
+
+  it('single-quoted values and escaping', () => {
+    expect(
+      transform(`[[[ 2026-12-24 countdown delimiter:' : ' finished:'Done, "really"' ]]]`),
+    ).toBe(
+      '<wa-counter date="2026-12-24" delimiter=" : "><span slot="finished">Done, &quot;really&quot;</span></wa-counter>',
+    );
+    const result = transform(
+      '[[[ 2026-12-24 countdown label:"<b>" finished:"<script>x</script>" ]]]',
+    );
+    expect(result).toContain('label="&lt;b&gt;"');
+    expect(result).toContain('<span slot="finished">&lt;script&gt;x&lt;/script&gt;</span>');
+  });
+
+  it('drops invalid values, omits defaults, later tokens win', () => {
+    expect(
+      transform('[[[ 2026-12-24 countdown largest:weeks smallest:ms format:long format:wide ]]]'),
+    ).toBe('<wa-counter date="2026-12-24"></wa-counter>');
+    expect(transform('[[[ 2026-12-24 countup countdown largest:days largest:hours ]]]')).toBe(
+      '<wa-counter date="2026-12-24" largest-unit="hours"></wa-counter>',
+    );
+  });
+
+  it('prefers counter over relative; date-less counter', () => {
+    expect(transform('[[[ relative 2026-12-24 countdown ]]]')).toBe(
+      '<wa-counter date="2026-12-24"></wa-counter>',
+    );
+    expect(transform('[[[ countdown ]]]')).toBe('<wa-counter></wa-counter>');
+  });
+
+  it('supports the :::wa-counter block', () => {
+    expect(transform(':::wa-counter 2026-12-24 format:narrow\n:::')).toBe(
+      '<wa-counter date="2026-12-24" format="narrow"></wa-counter>',
+    );
+    expect(transform(':::wa-counter 2020-01-01 up\n:::')).toBe(
+      '<wa-counter date="2020-01-01" direction="up"></wa-counter>',
+    );
+    expect(transform(':::wa-counter 2020-01-01 countup\n:::')).toBe(
+      '<wa-counter date="2020-01-01" direction="up"></wa-counter>',
+    );
+  });
+
+  it('keeps quoted tokens together without changing format-date output', () => {
+    expect(transform('[[[2026-06-26 style:long finished:"a 2026-01-01 b"]]]')).toBe(
+      '<wa-format-date date="2026-06-26" year="numeric" month="long" day="numeric"></wa-format-date>',
+    );
+  });
+});
+
 describe('DateTransformer.renderAsMarkdown', () => {
+  it('degrades a counter to its raw date string', () => {
+    expect(
+      renderAsMarkdown('Launch [[[ 2026-12-24 countdown finished:"Live 2027-01-01" ]]].'),
+    ).toBe('Launch 2026-12-24.');
+    expect(renderAsMarkdown(':::wa-counter 2020-01-01 up\n:::')).toBe('2020-01-01');
+  });
+
   // Plain markdown has no locale formatting, so each timestamp degrades to its
   // raw ISO date string (empty when omitted). Goldens generated from the Ruby
   // DateTransformer.render_as_markdown.

@@ -126,8 +126,13 @@ changing transformer behaviour, parity is the spec, not the local tests alone.
 - Known intentional divergences (cosmetic only): markdown list `<li>`
   indentation, standalone-`<img>` wrapping, and blank lines *between* sibling
   blocks (markdown-it collapses `\n\n`→`\n`; Kramdown keeps the blank line)
-  differ from Kramdown but render identically. See README "Parity with the Ruby
-  engine".
+  differ from Kramdown but render identically. So does Kramdown's
+  re-serialization of raw HTML nested in a markdown-rendered container body
+  (card, callout, tab panel, …): boolean attributes gain `=""` and void tags
+  gain ` />` (e.g. a stepper's `completed`, a lightbox's `with-thumbnails` and
+  thumbnail `<img>`). The parity corpus therefore nests those components only in
+  `::::` layouts, which pass their body through untouched. See README "Parity
+  with the Ruby engine".
 
 ## Conventions
 

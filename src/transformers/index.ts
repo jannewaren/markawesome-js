@@ -14,6 +14,8 @@ export * as divider from './divider.js';
 export * as icon from './icon.js';
 export * as imageDialog from './image-dialog.js';
 export * as layout from './layout.js';
+export * as lightbox from './lightbox.js';
+export * as numberTicker from './number-ticker.js';
 export * as popover from './popover.js';
 export * as randomContent from './random-content.js';
 export * as stepper from './stepper.js';

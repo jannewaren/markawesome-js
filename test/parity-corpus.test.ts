@@ -188,6 +188,78 @@ const CORPUS: Array<{ name: string; input: string }> = [
   { name: 'stepper-all-complete', input: '>>>>>>\n- [x] One\n- [X] Two\n- [x] Three\n>>>>>>' },
   { name: 'stepper-alt', input: ':::wa-stepper auto\n- icon:cart Cart\n- disabled danger Pay\n:::' },
   { name: 'stepper-in-callout', input: ':::info\n>>>>>>\n- Plan\n- Build\n>>>>>>\n:::' },
+  // Lightbox: `::::lightbox` around Markdown image lines -> <wa-lightbox
+  // class="wa-grid"> with one <wa-lightbox-item> per image. Covers the full
+  // flag/grid/label set with a linked thumbnail and a video item, the
+  // `:::wa-lightbox` alternative, thumbnail shapes, caption fallback, escaping,
+  // a non-image line rendered in place, and — because lightbox runs first — a
+  // gallery nested in a ::::grid. With imageDialog on (as for every corpus
+  // case), gallery images must not be dialog-wrapped.
+  {
+    name: 'lightbox-full',
+    input:
+      '::::lightbox loop thumbnails min:10rem gap:s label:"Lisbon trip"\n' +
+      '![Tram](tram.jpg "Tram 28 in Alfama")\n' +
+      '[![Bridge](bridge-thumb.jpg)](bridge-full.jpg "25 de Abril")\n' +
+      '[![Drone](drone-poster.jpg)](drone.mp4 "From above")\n::::',
+  },
+  {
+    name: 'lightbox-alt-flags',
+    input: ':::wa-lightbox no-zoom no-counter no-nav landscape\n![A](a.jpg)\n![B](b.webm?x=1)\n:::',
+  },
+  {
+    name: 'lightbox-caption-fallback-natural',
+    input:
+      "::::lightbox natural label:'loop & <more>'\n" +
+      '[![A](t.jpg "Image title")](f.jpg "Link title")\n[![B](t2.jpg "Only image")](f2.jpg)\n::::',
+  },
+  {
+    name: 'lightbox-escaping-and-text',
+    input:
+      '::::lightbox portrait\n![A "q" & co](a.jpg?x=1&y=2 "Fish & chips")\nSome *note*\n![B](b.jpg)\n::::',
+  },
+  {
+    name: 'lightbox-in-grid',
+    input: '::::grid gap:l\n::::lightbox\n![A](a.jpg)\n::::\nSide text\n::::',
+  },
+  // Counter: countdown/countup tokens in the `[[[ … ]]]` date syntax ->
+  // <wa-counter>. Quoted values keep their spaces; the finished slot is escaped.
+  {
+    name: 'counter-countdown-finished',
+    input: `Launch in [[[ 2026-12-24T18:00:00Z countdown finished:"We're live!" ]]]`,
+  },
+  {
+    name: 'counter-countup-units',
+    input: 'Up for [[[ 2020-03-01 countup largest:years smallest:days format:short ]]]',
+  },
+  {
+    name: 'counter-clock',
+    input:
+      '[[[ lang:fi label:"New year" delimiter:":" no-labels largest:hours 2026-12-31T23:59:59 countdown ]]]',
+  },
+  {
+    name: 'counter-block',
+    input: ":::wa-counter 2020-01-01 up format:narrow finished:'<done>'\n:::",
+  },
+  // Number ticker: a leading number in `[[[ … ]]]` -> <wa-number-ticker>, with
+  // the textual percent shift, currency, and the full option order.
+  { name: 'ticker-currency', input: 'Raised [[[ 18452.75 currency:eur display:code ]]] so far' },
+  {
+    name: 'ticker-percent-shift',
+    input:
+      '[[[ 87% ]]] [[[12.5%]]] [[[150%]]] [[[5%]]] [[[0.5%]]] [[[-12.5%]]] [[[ 0.42 percent ]]]',
+  },
+  {
+    name: 'ticker-all-options',
+    input:
+      '[[[ -3.5 lang:fi decimals:2 display:name currency:usd no-grouping eager ' +
+      'easing:"cubic-bezier(0.1, 0.7, 1, 0.1)" delay:200 duration:900 from:-10 ]]]',
+  },
+  { name: 'ticker-block', input: ':::wa-number-ticker 12000 from:10000\n:::' },
+  {
+    name: 'ticker-counter-date-routing',
+    input: '[[[ 87% ]]] [[[ 2026-12-24 countdown ]]] [[[ 2026-06-26 ]]] [[[ 12abc ]]]',
+  },
 ];
 
 describe('parity corpus (locked to Ruby-matching output)', () => {

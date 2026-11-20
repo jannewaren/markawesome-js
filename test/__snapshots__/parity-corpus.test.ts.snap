@@ -58,6 +58,14 @@ exports[`parity corpus (locked to Ruby-matching output) > card-horizontal-body-w
 
 exports[`parity corpus (locked to Ruby-matching output) > comparison 1`] = `"<wa-comparison position="50"><img slot="before" src="b.jpg" alt="Before" /><img slot="after" src="a.jpg" alt="After" /></wa-comparison>"`;
 
+exports[`parity corpus (locked to Ruby-matching output) > counter-block 1`] = `"<wa-counter date="2020-01-01" direction="up" format="narrow"><span slot="finished">&lt;done&gt;</span></wa-counter>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > counter-clock 1`] = `"<wa-counter date="2026-12-31T23:59:59" largest-unit="hours" without-labels delimiter=":" label="New year" lang="fi"></wa-counter>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > counter-countdown-finished 1`] = `"Launch in <wa-counter date="2026-12-24T18:00:00Z"><span slot="finished">We&#39;re live!</span></wa-counter>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > counter-countup-units 1`] = `"Up for <wa-counter date="2020-03-01" direction="up" largest-unit="years" smallest-unit="days" format="short"></wa-counter>"`;
+
 exports[`parity corpus (locked to Ruby-matching output) > date-block 1`] = `"<wa-format-date date="2026-06-26" weekday="long" year="numeric" month="long" day="numeric" lang="fr"></wa-format-date>"`;
 
 exports[`parity corpus (locked to Ruby-matching output) > date-inline-datetime 1`] = `"Released <wa-format-date date="2026-06-26T14:30:00Z" year="numeric" month="short" day="numeric" hour="numeric" minute="numeric" hour-format="24"></wa-format-date>."`;
@@ -119,6 +127,21 @@ Side
 </div>"
 `;
 
+exports[`parity corpus (locked to Ruby-matching output) > lightbox-alt-flags 1`] = `"<wa-lightbox class="wa-grid" without-navigation without-counter without-zoom><wa-lightbox-item src="a.jpg"><img src="a.jpg" alt="A" loading="lazy" style="width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item><wa-lightbox-item type="video" src="b.webm?x=1"><img src="b.webm?x=1" alt="B" loading="lazy" style="width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item></wa-lightbox>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > lightbox-caption-fallback-natural 1`] = `"<wa-lightbox class="wa-grid" label="loop &amp; &lt;more&gt;"><wa-lightbox-item src="f.jpg" caption="Link title"><img src="t.jpg" alt="A" loading="lazy" style="width: 100%; height: auto; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item><wa-lightbox-item src="f2.jpg" caption="Only image"><img src="t2.jpg" alt="B" loading="lazy" style="width: 100%; height: auto; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item></wa-lightbox>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > lightbox-escaping-and-text 1`] = `"<wa-lightbox class="wa-grid"><wa-lightbox-item src="a.jpg?x=1&amp;y=2" caption="Fish &amp; chips"><img src="a.jpg?x=1&amp;y=2" alt="A &quot;q&quot; &amp; co" loading="lazy" style="width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item><p>Some <em>note</em></p><wa-lightbox-item src="b.jpg"><img src="b.jpg" alt="B" loading="lazy" style="width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item></wa-lightbox>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > lightbox-full 1`] = `"<wa-lightbox class="wa-grid wa-gap-s" style="--min-column-size: 10rem" label="Lisbon trip" loop with-thumbnails><wa-lightbox-item src="tram.jpg" caption="Tram 28 in Alfama"><img src="tram.jpg" alt="Tram" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item><wa-lightbox-item src="bridge-full.jpg" caption="25 de Abril"><img src="bridge-thumb.jpg" alt="Bridge" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item><wa-lightbox-item type="video" src="drone.mp4" caption="From above"><img src="drone-poster.jpg" alt="Drone" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item></wa-lightbox>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > lightbox-in-grid 1`] = `
+"<div class="wa-grid wa-gap-l">
+<wa-lightbox class="wa-grid"><wa-lightbox-item src="a.jpg"><img src="a.jpg" alt="A" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--wa-border-radius-m)"></wa-lightbox-item></wa-lightbox>
+Side text
+</div>"
+`;
+
 exports[`parity corpus (locked to Ruby-matching output) > popover-aligned-skidding-block 1`] = `
 "<wa-button id='popover-d69e481a' appearance='plain'>Trigger</wa-button>
 <wa-popover for='popover-d69e481a' placement='bottom-start' skidding='12'>
@@ -173,6 +196,16 @@ exports[`parity corpus (locked to Ruby-matching output) > tabs-disabled 1`] = `
 `;
 
 exports[`parity corpus (locked to Ruby-matching output) > tag-inline 1`] = `"Status: <wa-tag variant="success"><wa-icon name="check"></wa-icon>Done</wa-tag> ok"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > ticker-all-options 1`] = `"<wa-number-ticker value="-3.5" start-value="-10" duration="900" delay="200" easing="cubic-bezier(0.1, 0.7, 1, 0.1)" eager type="currency" without-grouping currency="USD" currency-display="name" minimum-fraction-digits="2" maximum-fraction-digits="2" lang="fi"></wa-number-ticker>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > ticker-block 1`] = `"<wa-number-ticker value="12000" start-value="10000"></wa-number-ticker>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > ticker-counter-date-routing 1`] = `"<wa-number-ticker value="0.87" type="percent"></wa-number-ticker> <wa-counter date="2026-12-24"></wa-counter> <wa-format-date date="2026-06-26" year="numeric" month="long" day="numeric"></wa-format-date> <wa-format-date year="numeric" month="long" day="numeric"></wa-format-date>"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > ticker-currency 1`] = `"Raised <wa-number-ticker value="18452.75" type="currency" currency="EUR" currency-display="code"></wa-number-ticker> so far"`;
+
+exports[`parity corpus (locked to Ruby-matching output) > ticker-percent-shift 1`] = `"<wa-number-ticker value="0.87" type="percent"></wa-number-ticker> <wa-number-ticker value="0.125" type="percent"></wa-number-ticker> <wa-number-ticker value="1.5" type="percent"></wa-number-ticker> <wa-number-ticker value="0.05" type="percent"></wa-number-ticker> <wa-number-ticker value="0.005" type="percent"></wa-number-ticker> <wa-number-ticker value="-0.125" type="percent"></wa-number-ticker> <wa-number-ticker value="0.42" type="percent"></wa-number-ticker>"`;
 
 exports[`parity corpus (locked to Ruby-matching output) > tooltip 1`] = `"<span id="tooltip-6ea8fe9c" tabindex="0" class="ma-tooltip-anchor" style="text-decoration: underline dotted; cursor: help;">API term</span><wa-tooltip for="tooltip-6ea8fe9c" placement="top" distance="5">Application Programming Interface</wa-tooltip>"`;
 
@@ -258,6 +291,14 @@ exports[`parity corpus — plain markdown (locked to Ruby-matching output) > com
 
 **After:** ![After](a.jpg)"
 `;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > counter-block 1`] = `"2020-01-01"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > counter-clock 1`] = `"2026-12-31T23:59:59"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > counter-countdown-finished 1`] = `"Launch in 2026-12-24T18:00:00Z"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > counter-countup-units 1`] = `"Up for 2020-03-01"`;
 
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > date-block 1`] = `"2026-06-26"`;
 
@@ -349,6 +390,33 @@ exports[`parity corpus — plain markdown (locked to Ruby-matching output) > ico
 
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > layout-flank 1`] = `"Side"`;
 
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > lightbox-alt-flags 1`] = `
+"![A](a.jpg)
+![B](b.webm?x=1)"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > lightbox-caption-fallback-natural 1`] = `
+"[![A](t.jpg "Image title")](f.jpg "Link title")
+[![B](t2.jpg "Only image")](f2.jpg)"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > lightbox-escaping-and-text 1`] = `
+"![A "q" & co](a.jpg?x=1&y=2 "Fish & chips")
+Some *note*
+![B](b.jpg)"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > lightbox-full 1`] = `
+"![Tram](tram.jpg "Tram 28 in Alfama")
+[![Bridge](bridge-thumb.jpg)](bridge-full.jpg "25 de Abril")
+[![Drone](drone-poster.jpg)](drone.mp4 "From above")"
+`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > lightbox-in-grid 1`] = `
+"![A](a.jpg)
+Side text"
+`;
+
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > popover-aligned-skidding-block 1`] = `
 "**Trigger**
 
@@ -422,6 +490,16 @@ Not yet available."
 `;
 
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tag-inline 1`] = `"Status: **Done** ok"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > ticker-all-options 1`] = `"-3.5 USD"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > ticker-block 1`] = `"12000"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > ticker-counter-date-routing 1`] = `"87% 2026-12-24 2026-06-26 "`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > ticker-currency 1`] = `"Raised 18452.75 EUR so far"`;
+
+exports[`parity corpus — plain markdown (locked to Ruby-matching output) > ticker-percent-shift 1`] = `"87% 12.5% 150% 5% 0.5% -12.5% 0.42"`;
 
 exports[`parity corpus — plain markdown (locked to Ruby-matching output) > tooltip 1`] = `"**API term** (Application Programming Interface)"`;
 

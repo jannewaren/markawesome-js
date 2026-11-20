@@ -49,6 +49,15 @@ export function renderAsMarkdown(content: string): string {
   return applyPatterns(content, dualSyntaxPatterns(PRIMARY_REGEX, ALTERNATIVE_REGEX, transformProc));
 }
 
+/**
+ * Grid classes and inline styles for a params string, using the same rules as
+ * `::::grid` (gap:, align:, justify:, min:). Unknown tokens are ignored. Shared
+ * with the lightbox transformer, whose gallery is itself a wa-grid.
+ */
+export function gridAttributes(paramsString: string): [string[], string[]] {
+  return buildAttributes('grid', paramsString);
+}
+
 function buildAttributes(type: string, paramsString: string): [string[], string[]] {
   const classes = [`wa-${type}`];
   const styles: string[] = [];

@@ -15,6 +15,8 @@ import * as icon from './transformers/icon.js';
 import * as imageDialog from './transformers/image-dialog.js';
 import type { ImageDialogConfig } from './transformers/image-dialog.js';
 import * as layout from './transformers/layout.js';
+import * as lightbox from './transformers/lightbox.js';
+import * as numberTicker from './transformers/number-ticker.js';
 import * as popover from './transformers/popover.js';
 import * as randomContent from './transformers/random-content.js';
 import * as stepper from './transformers/stepper.js';
@@ -52,9 +54,18 @@ export function process(content: string, options: ProcessOptions = {}): string {
   c = divider.transform(c);
   c = stepper.transform(c);
 
+  // Lightbox also runs first: its `::::` closer must be consumed before the
+  // layout transformer (so a gallery can sit inside a ::::grid, card or tab),
+  // and its output is <img> HTML, so the optional image-dialog transformer
+  // never wraps gallery images in dialogs.
+  c = lightbox.transform(c);
+
   c = layout.transform(c);
   c = popover.transform(c);
   c = tooltip.transform(c);
+  // Number ticker runs right before the date transformer: both use `[[[ … ]]]`,
+  // and a leading number (never an ISO date) claims it.
+  c = numberTicker.transform(c);
   c = date.transform(c);
   c = badge.transform(c);
   c = button.transform(c);

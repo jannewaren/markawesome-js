@@ -1,24 +1,33 @@
+import { buildCounter } from '../counter-attributes.js';
+import { splitQuotedTokens } from '../quoted-tokens.js';
 import { applyPatterns, escapeHtml, type Pattern } from './base.js';
 
 /**
- * Transforms declarative timestamp syntax into Web Awesome's two timestamp
+ * Transforms declarative timestamp syntax into Web Awesome's three date
  * components:
  *   <wa-format-date>   — an absolute, locale-formatted date ("June 26, 2026")
  *   <wa-relative-time> — a relative phrase ("3 days ago"), optionally ticking
+ *   <wa-counter>       — a live countdown to / count up from a date
  *
  * Inline (primary):    [[[ <date> <tokens> ]]]
  * Block (alternative): :::wa-format-date <date> <tokens>  /  :::wa-relative-time …
- *                      followed by a closing ::: (empty body)
+ *                      /  :::wa-counter …, followed by a closing ::: (empty body)
  *
  * Byte-for-byte mirror of the Ruby `DateTransformer`. Mode: absolute
- * (<wa-format-date>) is the default; a bare `relative` token in the inline form
- * switches to <wa-relative-time>; the block selector name picks the mode.
+ * (<wa-format-date>) is the default; in the inline form a bare `countdown` /
+ * `countup` token switches to <wa-counter>, else a bare `relative` token
+ * switches to <wa-relative-time>; the block selector name picks the mode (a
+ * counter counts down unless `up`/`countup`).
+ *
+ * Tokens are whitespace-separated, except that `key:"…"` / `key:'…'` keeps a
+ * quoted value (spaces included) together — used by the counter's `finished:`,
+ * `label:` and `delimiter:`.
  */
 
 // Inline: content excludes `]`, non-greedy, multiple-per-line, single-line.
 const INLINE_REGEX = /\[\[\[[ \t]*([^\]\r\n]+?)[ \t]*\]\]\]/g;
 // Block: selector name picks the mode; an empty body, closed by `:::`.
-const ALTERNATIVE_REGEX = /^:::wa-(format-date|relative-time)[ \t]*([^\n]*)\n:::$/gm;
+const ALTERNATIVE_REGEX = /^:::wa-(format-date|relative-time|counter)[ \t]*([^\n]*)\n:::$/gm;
 
 // A token is the date when it is an ISO 8601 date or datetime (datetimes use
 // the `T` separator — a space would break whitespace tokenization).
@@ -94,7 +103,16 @@ export const RELATIVE_NUMERICS = ['auto', 'always'];
 const hasOwn = (obj: object, key: string): boolean =>
   Object.prototype.hasOwnProperty.call(obj, key);
 
-type Mode = 'relative' | 'absolute';
+type Mode = 'relative' | 'absolute' | 'counter';
+
+// Bare tokens that switch the inline form to <wa-counter>; its options live in
+// counter-attributes.ts.
+const COUNTER_MODE_TOKENS = ['countdown', 'countup'];
+const BLOCK_MODES: Record<string, Mode> = {
+  'format-date': 'absolute',
+  'relative-time': 'relative',
+  counter: 'counter',
+};
 
 export function transform(content: string): string {
   const inlinePattern: Pattern = {
@@ -104,8 +122,7 @@ export function transform(content: string): string {
   const alternativePattern: Pattern = {
     regex: ALTERNATIVE_REGEX,
     handler: (captures) => {
-      const mode: Mode = captures[0] === 'relative-time' ? 'relative' : 'absolute';
-      return renderTokens(captures[1] ?? '', mode);
+      return renderTokens(captures[1] ?? '', BLOCK_MODES[captures[0] ?? ''] ?? 'absolute');
     },
   };
   // Inline first to avoid conflicts with the block pattern.
@@ -130,21 +147,26 @@ export function renderAsMarkdown(content: string): string {
 
 // Return the first date/datetime token (or '' when none is present).
 function extractDate(tokenString: string): string {
-  const trimmed = tokenString.trim();
-  const tokens = trimmed === '' ? [] : trimmed.split(/\s+/);
+  const tokens = splitQuotedTokens(tokenString);
   return tokens.find((t) => DATE_TOKEN_REGEX.test(t)) ?? '';
 }
 
 function renderTokens(tokenString: string, modeOverride: Mode | null): string {
-  const trimmed = tokenString.trim();
-  let tokens = trimmed === '' ? [] : trimmed.split(/\s+/);
-  const date = splitDate(tokens);
-  tokens = date.rest;
-  const mode = modeOverride ?? (tokens.includes('relative') ? 'relative' : 'absolute');
+  const date = splitDate(splitQuotedTokens(tokenString));
+  const tokens = date.rest;
+  switch (modeOverride ?? inlineMode(tokens)) {
+    case 'counter':
+      return buildElement('wa-counter', ...buildCounter(date.value, tokens));
+    case 'relative':
+      return buildRelativeTime(date.value, tokens);
+    default:
+      return buildFormatDate(date.value, tokens);
+  }
+}
 
-  return mode === 'relative'
-    ? buildRelativeTime(date.value, tokens)
-    : buildFormatDate(date.value, tokens);
+function inlineMode(tokens: string[]): Mode {
+  if (tokens.some((t) => COUNTER_MODE_TOKENS.includes(t))) return 'counter';
+  return tokens.includes('relative') ? 'relative' : 'absolute';
 }
 
 // Pull the first date/datetime token out, leaving the option tokens.
@@ -246,7 +268,7 @@ function parseRelativeOptions(tokens: string[]): RelativeOptions {
   return opts;
 }
 
-function buildElement(tag: string, parts: string[]): string {
-  if (parts.length === 0) return `<${tag}></${tag}>`;
-  return `<${tag} ${parts.join(' ')}></${tag}>`;
+function buildElement(tag: string, parts: string[], inner = ''): string {
+  if (parts.length === 0) return `<${tag}>${inner}</${tag}>`;
+  return `<${tag} ${parts.join(' ')}>${inner}</${tag}>`;
 }

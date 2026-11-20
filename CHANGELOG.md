@@ -6,6 +6,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **Lightbox gallery (`<wa-lightbox>` / `<wa-lightbox-item>`, Web Awesome 3.15.0, experimental).** New `lightbox` transformer, a byte-for-byte mirror of markawesome's `LightboxTransformer`: a `::::lightbox params?` fence (or `:::wa-lightbox`) whose body lines are Markdown images (`![alt](src "caption")`, or `[![alt](thumb)](full "caption")` for a separate thumbnail; video extensions → `type="video"`; other lines rendered as Markdown in place). Always `class="wa-grid"`; `gap:`/`min:`/`align:`/`justify:` via the new exported `gridAttributes` in `layout.ts`. Flags `loop`, `thumbnails`, `no-nav`, `no-counter`, `no-zoom`, `label:"…"`; `square` (default)/`landscape`/`portrait`/`natural` thumbnails. Runs first in `process` (with divider/stepper), so galleries nest in `::::grid`, cards and tabs, and `imageDialog` never wraps their images. Plain-Markdown: the image lines as written (new `lightbox` override key).
+- **Counter (`<wa-counter>`, Web Awesome 3.15.0, experimental).** A `countdown`/`countup` token in the `[[[ … ]]]` date syntax (or `:::wa-counter <date> …`) → `<wa-counter>` with `largest:`/`smallest:`, `format:`, `no-labels`, `delimiter:"…"`, `label:"…"`, `lang:` and `finished:"…"` (the `finished` slot). Option logic in the new `src/counter-attributes.ts`.
+- **Number ticker (`<wa-number-ticker>`, Web Awesome 3.15.0, experimental).** New `numberTicker` transformer, run right before `date`: a leading number in `[[[ … ]]]` (or `:::wa-number-ticker`) → `<wa-number-ticker>`. `87%` → `type="percent" value="0.87"` by a textual decimal shift (exported `shiftPercent`); `currency:`, `display:`, `from:`, `duration:`, `delay:`, `easing:`, `eager`, `no-grouping`, `decimals:`, `lang:`. Plain-Markdown: the number as written plus the currency code (new `numberTicker` override key).
+- `[[[ … ]]]` tokens are quote-aware (`key:"…"` keeps spaces; new `src/quoted-tokens.ts`). Existing date output is unchanged.
+- Manifest coverage now guards `wa-lightbox-item` `type`, `wa-counter` `direction`/`format` and `wa-number-ticker` `type`/`currency-display`. 14 new parity-corpus cases, verified byte-identical against the Ruby engine (HTML and plain Markdown).
+
 ### Internal
 
 - **Refreshed the Web Awesome manifest fixture to 3.15.0** (November 17th, 2026). `npm run update-wa-manifest 3.15.0` regenerated `test/fixtures/webawesome-enums.json` and `WA_VERSION` moved to `3.15.0`. The diff is **purely additive** — five new tags (`wa-code-highlighter`, `wa-counter`, `wa-lightbox`, `wa-lightbox-item`, `wa-number-ticker`) and their enums — with **zero DRIFT and zero GAP** against the enums we accept, so no transformer constant changed. `<wa-stepper>` is now stable in Web Awesome. Fixture remains byte-identical to `markawesome`'s copy.
