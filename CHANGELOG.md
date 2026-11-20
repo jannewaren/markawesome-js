@@ -6,6 +6,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Internal
+
+- **Refreshed the Web Awesome manifest fixture to 3.15.0** (November 17th, 2026). `npm run update-wa-manifest 3.15.0` regenerated `test/fixtures/webawesome-enums.json` and `WA_VERSION` moved to `3.15.0`. The diff is **purely additive** — five new tags (`wa-code-highlighter`, `wa-counter`, `wa-lightbox`, `wa-lightbox-item`, `wa-number-ticker`) and their enums — with **zero DRIFT and zero GAP** against the enums we accept, so no transformer constant changed. `<wa-stepper>` is now stable in Web Awesome. Fixture remains byte-identical to `markawesome`'s copy.
+
 ## [0.5.0] - 2026-10-09
 
 ### Added
