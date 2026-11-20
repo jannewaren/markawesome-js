@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-20
+
 ### Added
 
 - **Lightbox gallery (`<wa-lightbox>` / `<wa-lightbox-item>`, Web Awesome 3.15.0, experimental).** New `lightbox` transformer, a byte-for-byte mirror of markawesome's `LightboxTransformer`: a `::::lightbox params?` fence (or `:::wa-lightbox`) whose body lines are Markdown images (`![alt](src "caption")`, or `[![alt](thumb)](full "caption")` for a separate thumbnail; video extensions → `type="video"`; other lines rendered as Markdown in place). Always `class="wa-grid"`; `gap:`/`min:`/`align:`/`justify:` via the new exported `gridAttributes` in `layout.ts`. Flags `loop`, `thumbnails`, `no-nav`, `no-counter`, `no-zoom`, `label:"…"`; `square` (default)/`landscape`/`portrait`/`natural` thumbnails. Runs first in `process` (with divider/stepper), so galleries nest in `::::grid`, cards and tabs, and `imageDialog` never wraps their images. Plain-Markdown: the image lines as written (new `lightbox` override key).
